@@ -2,628 +2,477 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="NEXO CERO te ayuda a encontrar ideas de negocio de bajo costo y probarlas antes de invertir.">
-  <meta name="theme-color" content="#ffffff">
-  <title>NEXO CERO | De una idea a algo real</title>
-
-  <style>
-    :root {
-      --bg: #ffffff;
-      --panel: #ffffff;
-      --line: #e8e2f5;
-      --text: #242033;
-      --muted: #686477;
-      --accent: #7652d6;
-      --accent-soft: #f5f0ff;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      background: #ffffff;
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.6;
-    }
-
-    .wrap { width: min(940px, 92%); margin: auto; }
-
-    header {
-      padding: 18px 0;
-      border-bottom: 1px solid var(--line);
-      background: #ffffff;
-    }
-
-    .brand {
-      font-weight: 850;
-      letter-spacing: 1.7px;
-      font-size: 13px;
-      color: #49415f;
-    }
-
-    .brand span { color: var(--accent); }
-
-    .hero { padding: 68px 0 38px; }
-
-    .tag {
-      color: var(--accent);
-      text-transform: uppercase;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 2px;
-    }
-
-    h1 {
-      font-size: clamp(36px, 7vw, 64px);
-      line-height: 1.06;
-      letter-spacing: -2px;
-      margin: 15px 0;
-    }
-
-    h2 { font-size: 24px; line-height: 1.25; }
-    h3 { line-height: 1.3; }
-    p { color: var(--muted); }
-    .hero p { font-size: 18px; max-width: 650px; }
-    .accent { color: var(--accent); }
-
-    .hero-link {
-      display: inline-block;
-      margin-top: 12px;
-      color: var(--accent);
-      font-weight: 800;
-      text-decoration: none;
-      border-bottom: 1px solid #c9b8f5;
-      padding-bottom: 3px;
-    }
-
-    .panel {
-      background: #ffffff;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 28px;
-      margin: 24px 0;
-      box-shadow: 0 12px 35px rgba(77, 53, 130, .06);
-    }
-
-    #radar { border-color: #d9cdf7; }
-    #radar h2 { margin-top: 8px; font-size: 28px; }
-
-    .fields {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
-    }
-
-    label {
-      display: block;
-      font-weight: 650;
-      margin-bottom: 8px;
-    }
-
-    select {
-      width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      background: #ffffff;
-      color: var(--text);
-      border: 1px solid #d9d3e8;
-      font-size: 15px;
-    }
-
-    select:focus, button:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 3px;
-    }
-
-    select:hover { border-color: #a995e7; }
-
-    button {
-      border: 0;
-      border-radius: 12px;
-      padding: 15px 20px;
-      background: var(--accent);
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    button:hover { filter: brightness(1.06); }
-    button:disabled { opacity: .6; cursor: wait; }
-
-    .main-button {
-      width: 100%;
-      margin-top: 24px;
-      box-shadow: 0 8px 24px rgba(118, 82, 214, .18);
-    }
-
-    .results { display: grid; gap: 18px; }
-
-    .idea {
-      background: #ffffff;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 24px;
-    }
-
-    .idea:first-child { border-color: #b9a3f1; }
-    .idea h3 { margin: 7px 0; font-size: 22px; }
-    .score { color: var(--accent); font-weight: 800; }
-
-    .pill {
-      display: inline-block;
-      border: 1px solid #e0d8f0;
-      border-radius: 30px;
-      padding: 4px 10px;
-      color: var(--muted);
-      font-size: 12px;
-      margin: 4px 4px 4px 0;
-    }
-
-    .idea ul { padding-left: 22px; }
-    .idea li { margin: 8px 0; }
-
-    .test {
-      padding: 14px;
-      border-left: 3px solid var(--accent);
-      background: var(--accent-soft);
-      border-radius: 0 8px 8px 0;
-    }
-
-    .test strong { color: var(--text); }
-    .section-intro { margin-top: -8px; }
-
-    .how-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .how-card {
-      border: 1px solid var(--line);
-      background: #ffffff;
-      border-radius: 14px;
-      padding: 17px;
-    }
-
-    .number {
-      color: var(--accent);
-      font-weight: 900;
-      font-size: 23px;
-    }
-
-    .notice, .small-note { font-size: 13px; }
-
-    .week-plan {
-      margin-top: 18px;
-      padding: 17px;
-      border: 1px solid var(--line);
-      background: #faf8ff;
-      border-radius: 14px;
-    }
-
-    .week-plan h4 { margin: 0 0 8px; color: var(--accent); }
-    .week-plan ol { padding-left: 22px; }
-
-    .message-box {
-      margin-top: 14px;
-      padding: 14px;
-      background: #faf8ff;
-      border: 1px solid #e0d8f0;
-      border-radius: 10px;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      color: var(--text);
-    }
-
-    .copy-button {
-      margin-top: 10px;
-      padding: 10px 14px;
-      background: #ffffff;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-    }
-
-    footer {
-      padding: 30px 0 42px;
-      color: var(--muted);
-      font-size: 13px;
-      border-top: 1px solid var(--line);
-      margin-top: 40px;
-    }
-
-    [hidden] { display: none !important; }
-
-    @media (max-width: 620px) {
-      .fields, .how-grid { grid-template-columns: 1fr; }
-      .panel { padding: 19px; }
-      .hero { padding-top: 48px; }
-      .idea { padding: 19px; }
-      h1 { letter-spacing: -1px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="NEXO CERO: encuentra y valida ideas de negocio con los recursos que tienes.">
+<meta name="theme-color" content="#ffffff">
+<title>NEXO CERO | De una idea a algo real</title>
+<style>
+:root {
+  --line:#e8e2f5; --text:#242033; --muted:#686477;
+  --accent:#7652d6; --soft:#f5f0ff;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0; color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.6;
+}
+.wrap { width:min(960px,92%); margin:auto; }
+header { padding:18px 0; border-bottom:1px solid var(--line); }
+.brand { font-weight:850; letter-spacing:1.7px; font-size:13px; }
+.brand span,.accent { color:var(--accent); }
+.hero { padding:58px 0 35px; }
+.tag { color:var(--accent); text-transform:uppercase; font-size:12px; font-weight:800; letter-spacing:2px; }
+h1 { font-size:clamp(36px,7vw,64px); line-height:1.06; letter-spacing:-2px; margin:15px 0; }
+h2 { font-size:clamp(23px,4vw,30px); line-height:1.25; }
+h3 { line-height:1.3; }
+p { color:var(--muted); }
+.hero p { font-size:18px; max-width:680px; }
+a { color:var(--accent); }
+.hero-link { display:inline-block; font-weight:800; text-decoration:none; border-bottom:1px solid #c9b8f5; }
+.panel { border:1px solid var(--line); border-radius:20px; padding:26px; margin:22px 0; box-shadow:0 12px 35px #4d35820d; }
+#radar { border-color:#d9cdf7; }
+.fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+label { display:block; font-weight:650; margin-bottom:7px; }
+select { width:100%; padding:13px; border-radius:12px; background:#fff; color:var(--text); border:1px solid #d9d3e8; font:inherit; }
+select:focus,button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+button { border:0; border-radius:12px; padding:13px 18px; background:var(--accent); color:white; font-size:15px; font-weight:800; cursor:pointer; }
+button:hover { filter:brightness(1.06); }
+.secondary { background:#fff; border:1px solid var(--accent); color:var(--accent); }
+.main-button { width:100%; margin-top:22px; }
+.notice,.small-note { font-size:13px; }
+.results { display:grid; gap:17px; }
+.idea { border:1px solid var(--line); border-radius:18px; padding:22px; }
+.idea:first-child { border-color:#b9a3f1; }
+.idea h3 { font-size:22px; margin:7px 0; }
+.score { color:var(--accent); font-weight:800; }
+.pill { display:inline-block; border:1px solid #e0d8f0; border-radius:30px; padding:4px 10px; color:var(--muted); font-size:12px; margin:4px; }
+.idea li { margin:7px 0; }
+.test { padding:14px; border-left:3px solid var(--accent); background:var(--soft); border-radius:0 8px 8px 0; }
+.week-plan,.message-box,.feedback-box { margin-top:14px; padding:15px; background:#faf8ff; border:1px solid #e0d8f0; border-radius:12px; }
+.week-plan h4 { margin:0; color:var(--accent); }
+.message-box { white-space:pre-wrap; overflow-wrap:anywhere; color:var(--text); }
+.action-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+.how-grid,.pricing-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.how-card,.price-card { border:1px solid var(--line); border-radius:14px; padding:17px; }
+.number { color:var(--accent); font-weight:900; font-size:23px; }
+.pricing-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.featured { background:#faf8ff; border-color:#b9a3f1!important; }
+.price { color:var(--accent); font-size:28px; font-weight:850; margin:5px 0; }
+.status { min-height:1.5em; font-size:13px; }
+footer { padding:30px 0 42px; font-size:13px; border-top:1px solid var(--line); margin-top:40px; }
+[hidden] { display:none!important; }
+@media(max-width:620px) {
+  .fields,.how-grid,.pricing-grid { grid-template-columns:1fr; }
+  .panel { padding:19px; }
+  .hero { padding-top:42px; }
+  .idea { padding:18px; }
+  h1 { letter-spacing:-1px; }
+}
+</style>
 </head>
-
 <body>
-  <header>
-    <div class="wrap brand">NEXO<span>.</span>CERO</div>
-  </header>
+<header>
+  <div class="wrap brand">NEXO<span>.</span>CERO</div>
+</header>
 
-  <main class="wrap">
-    <section class="hero">
-      <div class="tag">Tu punto de partida</div>
-      <h1>Empieza con lo que tienes.<br>
-        <span class="accent">Construye algo real.</span>
-      </h1>
-      <p>
-        Descubre ideas de negocio que se ajustan a tu dinero,
-        tus habilidades y tu tiempo. Después, prueba si existe
-        interés antes de arriesgar tus ahorros.
-      </p>
-      <a href="#radar" class="hero-link">Encuentra tu primera idea ↓</a>
-    </section>
+<main class="wrap">
+<section class="hero">
+  <div class="tag">Tu punto de partida</div>
+  <h1>Empieza con lo que tienes.<br><span class="accent">Construye algo real.</span></h1>
+  <p>Encuentra ideas de negocio que se ajusten a tu dinero, habilidades y tiempo. Valida el interés antes de arriesgar tus ahorros.</p>
+  <a class="hero-link" href="#radar">Encuentra tu primera idea ↓</a>
+</section>
 
-    <section class="panel" id="radar">
-      <div class="tag">Herramienta gratuita</div>
-      <h2>Radar de Ideas</h2>
-      <p>
-        Cuéntanos con qué empiezas. Te mostraremos oportunidades
-        y una forma práctica de probarlas.
-      </p>
+<section class="panel" id="radar">
+  <div class="tag">Herramienta gratuita</div>
+  <h2>Radar de Ideas</h2>
+  <p>Cuéntanos con qué empiezas para encontrar oportunidades y un plan práctico para probarlas.</p>
 
-      <div class="fields">
-        <div>
-          <label for="budget">¿Cuánto puedes invertir?</label>
-          <select id="budget">
-            <option value="0">$0 MXN</option>
-            <option value="500">$500 MXN</option>
-            <option value="1500">$1,500 MXN</option>
-            <option value="3000">$3,000 MXN</option>
-          </select>
-        </div>
+  <div class="fields">
+    <div>
+      <label for="budget">¿Cuánto puedes invertir sin endeudarte?</label>
+      <select id="budget">
+        <option value="0">$0 MXN</option>
+        <option value="500">$500 MXN</option>
+        <option value="1500">$1,500 MXN</option>
+        <option value="3000">$3,000 MXN</option>
+        <option value="5000">$5,000 MXN</option>
+      </select>
+    </div>
+    <div>
+      <label for="skill">¿Qué se te da mejor?</label>
+      <select id="skill">
+        <option value="sales">Vender y hablar con personas</option>
+        <option value="creative">Crear, diseñar o escribir</option>
+        <option value="tech">Tecnología y computadoras</option>
+        <option value="organize">Organizar y resolver problemas</option>
+        <option value="learn">Estoy dispuesto a aprender</option>
+        <option value="hands">Trabajos prácticos o manuales</option>
+      </select>
+    </div>
+    <div>
+      <label for="time">¿Cuánto tiempo tienes por semana?</label>
+      <select id="time">
+        <option value="2">1–3 horas</option>
+        <option value="5">4–7 horas</option>
+        <option value="10">8 horas o más</option>
+      </select>
+    </div>
+    <div>
+      <label for="mode">¿Cómo prefieres trabajar?</label>
+      <select id="mode">
+        <option value="online">Por internet</option>
+        <option value="local">Con clientes de mi zona</option>
+        <option value="either">Me da igual</option>
+      </select>
+    </div>
+    <div>
+      <label for="experience">¿Qué experiencia tienes?</label>
+      <select id="experience">
+        <option value="beginner">Empiezo desde cero</option>
+        <option value="some">Ya intenté vender algo</option>
+        <option value="experienced">Ya tengo experiencia o clientes</option>
+      </select>
+    </div>
+    <div>
+      <label for="goal">¿Qué quieres conseguir primero?</label>
+      <select id="goal">
+        <option value="first-sale">Mi primera venta</option>
+        <option value="extra">Ingresos extra</option>
+        <option value="digital">Crear algo digital escalable</option>
+        <option value="local">Clientes en mi zona</option>
+      </select>
+    </div>
+    <div>
+      <label for="resources">¿Qué tienes disponible?</label>
+      <select id="resources">
+        <option value="computer">Computadora e internet</option>
+        <option value="phone">Solo celular e internet</option>
+        <option value="contacts">Contactos o comunidad local</option>
+        <option value="tools">Herramientas o equipo</option>
+        <option value="mixed">Varias de las anteriores</option>
+      </select>
+    </div>
+    <div>
+      <label for="urgency">¿Cuándo necesitas empezar a generar?</label>
+      <select id="urgency">
+        <option value="soon">Lo antes posible</option>
+        <option value="month">En 2–4 semanas</option>
+        <option value="long">Puedo construir a largo plazo</option>
+      </select>
+    </div>
+  </div>
 
-        <div>
-          <label for="skill">¿Qué se te da mejor?</label>
-          <select id="skill">
-            <option value="sales">Vender y hablar con personas</option>
-            <option value="creative">Crear, diseñar o escribir</option>
-            <option value="tech">Tecnología y computadoras</option>
-            <option value="organize">Organizar y resolver problemas</option>
-            <option value="learn">Estoy dispuesto a aprender</option>
-          </select>
-        </div>
+  <button class="main-button" id="generate" type="button">Encontrar mis ideas →</button>
+  <p class="notice">No necesitas registrarte. Tus respuestas se procesan en esta página y no se envían a un servidor.</p>
+</section>
 
-        <div>
-          <label for="time">¿Cuánto tiempo tienes por semana?</label>
-          <select id="time">
-            <option value="2">1–3 horas</option>
-            <option value="5">4–7 horas</option>
-            <option value="10">8 horas o más</option>
-          </select>
-        </div>
+<section id="resultsSection" hidden aria-live="polite">
+  <div class="tag">Tu siguiente paso</div>
+  <h2>Tus oportunidades iniciales</h2>
+  <p>La puntuación mide compatibilidad aproximada, no probabilidad de éxito. Los precios y costes son ejemplos que debes verificar.</p>
+  <div id="results" class="results"></div>
+  <div class="panel">
+    <h2>La regla de NEXO CERO</h2>
+    <p>Antes de gastar, busca evidencia. Habla con posibles clientes y comprueba si alguien quiere pagar por resolver el problema.</p>
+    <button id="restart" type="button">Probar otras respuestas</button>
+  </div>
+</section>
 
-        <div>
-          <label for="mode">¿Cómo prefieres trabajar?</label>
-          <select id="mode">
-            <option value="online">Por internet</option>
-            <option value="local">Con clientes de mi zona</option>
-            <option value="either">Me da igual</option>
-          </select>
-        </div>
-      </div>
+<section class="panel">
+  <div class="tag">Nuestro método</div>
+  <h2>De la idea a la evidencia</h2>
+  <div class="how-grid">
+    <div class="how-card"><div class="number">01</div><h3>Encuentra</h3><p>Elige un problema concreto de un público al que puedas llegar.</p></div>
+    <div class="how-card"><div class="number">02</div><h3>Experimenta</h3><p>Prueba el interés con acciones pequeñas y económicas.</p></div>
+    <div class="how-card"><div class="number">03</div><h3>Aprende</h3><p>Mejora, cambia o descarta según las respuestas reales.</p></div>
+  </div>
+</section>
 
-      <button class="main-button" id="generate" type="button">
-        Encontrar mis ideas →
-      </button>
+<section class="panel" id="planes">
+  <div class="tag">Modelo de negocio</div>
+  <h2>Empieza gratis. Mejora cuando lo necesites.</h2>
+  <p>Pro es una propuesta por validar con usuarios. Todavía no hay cobros ni funciones bloqueadas.</p>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="tag">Plan gratuito</div><div class="price">$0 MXN</div>
+      <p>Para descubrir y validar una primera idea.</p>
+      <ul><li>Radar personalizado</li><li>Plan de acción de 7 días</li><li>Experimento de validación</li><li>Mensaje para contactar clientes</li></ul>
+      <span class="pill">Disponible ahora</span>
+    </div>
+    <div class="price-card featured">
+      <div class="tag">Plan Pro · futuro</div><div class="price">$49–$99 MXN/mes</div>
+      <p>Precio hipotético para probar; aún no está activo.</p>
+      <ul><li>Plan de negocio detallado</li><li>Calculadora de costes, precio y margen</li><li>Guiones para conseguir clientes</li><li>Seguimiento de metas</li></ul>
+      <button class="secondary" id="interestPro" type="button">Me interesa Pro</button>
+    </div>
+  </div>
+  <p class="small-note" id="proFeedback">No se procesa ningún pago ni se registra interés en un servidor.</p>
+</section>
 
-      <p class="notice">
-        No necesitas registrarte. Tus respuestas se procesan en esta
-        página y no se envían a un servidor.
-      </p>
-    </section>
+<section class="panel" id="feedback">
+  <div class="tag">Ayúdanos a mejorar</div>
+  <h2>¿Te sirvió NEXO CERO?</h2>
+  <p>Prepara una opinión para compartirla. Esta versión no envía respuestas automáticamente.</p>
+  <div class="feedback-box">
+    <label for="rating">¿Qué tan útil te resultó?</label>
+    <select id="rating"><option>Muy útil</option><option>Algo útil</option><option>Poco útil</option><option>No me ayudó</option></select>
+    <label for="feedbackText" style="margin-top:12px">¿Qué deberíamos mejorar?</label>
+    <select id="feedbackText">
+      <option>Ideas más realistas</option><option>Mejor cálculo de costes</option>
+      <option>Más formas de conseguir clientes</option><option>Más tipos de negocio</option>
+      <option>Mejor experiencia en móvil</option><option>Seguimiento de avances</option>
+    </select>
+    <div class="action-row">
+      <button id="copyFeedback" type="button">Copiar mi opinión</button>
+      <button class="secondary" id="shareSite" type="button">Compartir NEXO CERO</button>
+    </div>
+    <p class="status" id="feedbackStatus" aria-live="polite"></p>
+  </div>
+</section>
 
-    <section id="resultsSection" hidden aria-live="polite">
-      <div class="tag">Tu siguiente paso</div>
-      <h2>Tus oportunidades iniciales</h2>
-      <p class="section-intro">
-        Empieza por la opción que puedas probar más fácilmente.
-        Las puntuaciones miden compatibilidad aproximada, no garantizan ventas.
-      </p>
+<footer>
+  <div class="brand">NEXO<span>.</span>CERO</div>
+  <p>De una idea a algo real.</p>
+  <p>Primera versión experimental. Las puntuaciones, precios y costes son orientativos y no garantizan ingresos. Comprueba la demanda, los gastos y los requisitos locales antes de invertir.</p>
+</footer>
+</main>
 
-      <div id="results" class="results"></div>
+<script>
+"use strict";
 
-      <div class="panel">
-        <h2>La regla de NEXO CERO</h2>
-        <p>
-          Antes de gastar, busca evidencia. Habla con posibles clientes,
-          entiende el problema y comprueba si alguien realmente quiere
-          pagar por resolverlo.
-        </p>
-        <button type="button" id="restart">Probar otras respuestas</button>
-      </div>
-    </section>
+const ideas = [
+{
+ name:"Contenido para pequeños negocios",type:"Servicio digital",skills:["creative","tech","learn"],mode:"online",hours:2,easy:true,quick:true,digital:true,service:true,resources:["computer","phone","mixed"],
+ desc:"Crear publicaciones claras para negocios que necesitan mejorar su presencia en redes.",
+ cost:"$0–$300 MXN usando herramientas gratuitas; el coste principal es tu tiempo.",
+ price:"Ejemplo para validar: 3–5 publicaciones por $250–$600 MXN, según alcance.",
+ steps:["Elige un sector concreto: barberías, cafeterías, talleres o tiendas.","Crea tres ejemplos con herramientas gratuitas.","Contacta a cinco negocios y pregunta qué contenido necesitan."],
+ test:"Pregunta si pagarían por una prueba pequeña; no hagas un paquete completo gratis.",
+ week:["Define un sector y problema.","Observa cinco perfiles comerciales.","Crea dos o tres ejemplos.","Pide opinión a dos personas del público.","Ajusta la propuesta.","Contacta a cinco negocios.","Evalúa respuestas y decide el siguiente experimento."]
+},
+{
+ name:"Asistencia virtual básica",type:"Servicio digital",skills:["organize","tech","learn"],mode:"online",hours:2,easy:true,quick:true,digital:false,service:true,resources:["computer","mixed"],
+ desc:"Ayudar con archivos, agendas, listas o tareas administrativas sencillas.",
+ cost:"$0–$200 MXN con herramientas gratuitas; evita suscripciones antes de vender.",
+ price:"Ejemplo de tarea delimitada: $150–$400 MXN, según tiempo y complejidad.",
+ steps:["Escoge una tarea que ya sepas hacer.","Prepara una demostración con datos ficticios.","Pregunta a cinco profesionales si necesitan esa ayuda."],
+ test:"Acuerda alcance, fecha y precio; no solicites contraseñas ni datos sensibles.",
+ week:["Elige una tarea y cliente tipo.","Describe el problema que resuelves.","Prepara una muestra ficticia.","Pide opinión a dos prospectos.","Define precio y límites.","Contacta a cinco personas.","Evalúa el interés real."]
+},
+{
+ name:"Mejora de currículums",type:"Servicio digital",skills:["creative","organize","learn"],mode:"online",hours:2,easy:true,quick:true,digital:false,service:true,resources:["computer","phone","mixed"],
+ desc:"Mejorar formato y claridad de currículums con herramientas gratuitas.",
+ cost:"$0–$150 MXN con plantillas gratuitas.",
+ price:"Ejemplo: $150–$350 MXN por formato y revisión básica; no prometas empleo.",
+ steps:["Crea dos ejemplos con datos inventados.","Define exactamente qué incluye la revisión.","Pregunta a personas que buscan empleo qué les cuesta mejorar."],
+ test:"Protege los datos personales y define el alcance del servicio.",
+ week:["Define el servicio.","Investiga dudas frecuentes.","Prepara una muestra ficticia.","Pide opiniones.","Define el alcance.","Comparte la oferta donde sea apropiado.","Revisa las respuestas."]
+},
+{
+ name:"Reventa bajo pedido validada",type:"Comercio",skills:["sales","organize","learn"],mode:"local",hours:5,easy:true,quick:true,digital:false,service:false,resources:["contacts","phone","mixed"],
+ desc:"Investigar productos solicitados y comprobar compradores antes de adquirir inventario.",
+ cost:"$0 para investigar; comprar inventario añade riesgo y gastos.",
+ price:"Calcula margen después de producto, entrega, comisiones y posibles devoluciones.",
+ steps:["Escoge una categoría que conozcas.","Pregunta a compradores qué buscan y cuánto pagarían.","Verifica proveedor, disponibilidad, entrega y devoluciones."],
+ test:"No anuncies algo como disponible si no puedes cumplirlo. Explica las condiciones antes de cobrar.",
+ week:["Escoge una categoría.","Compara cinco ofertas.","Habla con cinco compradores.","Verifica proveedor y entrega.","Calcula el margen real.","Prueba una publicación transparente si puedes cumplir.","Decide según evidencia; evita comprar stock por impulso."]
+},
+{
+ name:"Guía digital especializada",type:"Producto digital",skills:["creative","tech","learn"],mode:"online",hours:5,easy:true,quick:false,digital:true,service:false,resources:["computer","phone","mixed"],
+ desc:"Crear una guía breve que ayude a un público definido con un problema concreto.",
+ cost:"$0–$250 MXN usando herramientas gratuitas; no pagues anuncios al inicio.",
+ price:"Valida con una muestra; una guía útil podría probarse a $49–$149 MXN.",
+ steps:["Elige un problema que conozcas.","Prepara una muestra útil de dos o tres páginas.","Pide opiniones y mide interés antes de crear todo."],
+ test:"No construyas un producto largo sin confirmar que el problema importa.",
+ week:["Define público y problema.","Habla con tres personas.","Escribe el esquema.","Crea una muestra.","Pide opiniones.","Pregunta si pagarían por una versión completa.","Decide si crear, cambiar o descartar."]
+},
+{
+ name:"Ayuda tecnológica local",type:"Servicio local",skills:["tech","organize","learn","hands"],mode:"local",hours:2,easy:true,quick:true,digital:false,service:true,resources:["tools","contacts","phone","mixed"],
+ desc:"Ayudar con tareas sencillas de configuración y uso de dispositivos que sabes resolver.",
+ cost:"$0–$300 MXN si ya tienes equipo básico; evita reparaciones fuera de tu capacidad.",
+ price:"Ejemplo de tarea sencilla: $100–$300 MXN, según alcance.",
+ steps:["Define tres tareas que sabes realizar con seguridad.","Especifica qué incluye y qué no.","Pregunta a conocidos qué problema necesitan resolver."],
+ test:"No accedas a archivos privados ni manejes contraseñas. Acepta solo tareas que dominas.",
+ week:["Lista las tareas que dominas.","Define límites y duración.","Explica el servicio.","Pide opinión.","Ajusta precio y alcance.","Pregunta a cinco prospectos.","Evalúa solicitudes antes de comprar equipo."]
+},
+{
+ name:"Servicio práctico de barrio",type:"Servicio local",skills:["sales","organize","hands","learn"],mode:"local",hours:2,easy:true,quick:true,digital:false,service:true,resources:["tools","contacts","mixed"],
+ desc:"Resolver una necesidad cotidiana con un servicio simple, seguro y bien delimitado.",
+ cost:"Desde $0 si ya tienes lo necesario; confirma materiales, transporte y seguridad.",
+ price:"Calcula tiempo, materiales y transporte antes de fijar el precio.",
+ steps:["Pregunta a vecinos qué tarea pequeña les cuesta resolver.","Escoge una que puedas realizar con seguridad.","Define el precio según tiempo y materiales."],
+ test:"No aceptes tareas peligrosas ni compres materiales sin aclarar quién los paga.",
+ week:["Pregunta por necesidades concretas.","Elige una tarea segura.","Calcula materiales y tiempo.","Define alcance y precio.","Pide opiniones.","Ofrece el servicio a cinco personas.","Evalúa si hubo interés."]
+},
+{
+ name:"Plantillas digitales útiles",type:"Producto digital",skills:["creative","tech","organize","learn"],mode:"online",hours:5,easy:true,quick:false,digital:true,service:false,resources:["computer","phone","mixed"],
+ desc:"Crear una plantilla para ahorrar tiempo a un tipo específico de usuario.",
+ cost:"$0–$200 MXN con herramientas gratuitas.",
+ price:"Valida con una muestra; prueba $39–$129 MXN si aporta valor.",
+ steps:["Elige una tarea repetitiva.","Crea una plantilla original.","Pide a tres personas que la prueben."],
+ test:"Comprueba que funcione y revisa las licencias de los materiales usados.",
+ week:["Elige público y tarea.","Pregunta cómo la resuelven hoy.","Diseña la primera versión.","Pide a tres personas probarla.","Corrige confusiones.","Prepara una presentación sencilla.","Mide el interés y decide si ampliar."]
+}
+];
 
-    <section class="panel">
-      <div class="tag">Nuestro método</div>
-      <h2>De la idea a la evidencia</h2>
+function scoreIdea(i,budget,skill,hours,mode,experience,goal,resource,urgency) {
+  let s=42;
+  if(i.skills.includes(skill)) s+=17;
+  if(hours>=i.hours) s+=8;
+  if(mode==="either"||mode===i.mode) s+=7;
+  if(experience==="beginner"&&i.easy) s+=8;
+  if(experience==="experienced"&&i.service) s+=3;
+  if(goal==="first-sale"&&i.quick) s+=9;
+  if(goal==="extra"&&i.service) s+=6;
+  if(goal==="digital"&&i.digital) s+=12;
+  if(goal==="local"&&i.mode==="local") s+=10;
+  if(i.resources.includes(resource)||resource==="mixed") s+=7;
+  if(urgency==="soon"&&i.quick) s+=5;
+  return Math.min(s,100);
+}
 
-      <div class="how-grid">
-        <div class="how-card">
-          <div class="number">01</div>
-          <h3>Encuentra</h3>
-          <p>Elige un problema que puedas ayudar a resolver.</p>
-        </div>
+function makeElement(tag,className,text) {
+  const el=document.createElement(tag);
+  if(className) el.className=className;
+  if(text!==undefined) el.textContent=text;
+  return el;
+}
 
-        <div class="how-card">
-          <div class="number">02</div>
-          <h3>Experimenta</h3>
-          <p>Prueba el interés con acciones pequeñas y económicas.</p>
-        </div>
+function addList(parent,items) {
+  const ul=makeElement("ul");
+  items.forEach(item=>ul.appendChild(makeElement("li","",item)));
+  parent.appendChild(ul);
+}
 
-        <div class="how-card">
-          <div class="number">03</div>
-          <h3>Aprende</h3>
-          <p>Usa los resultados para mejorar, cambiar o descartar la idea.</p>
-        </div>
-      </div>
-    </section>
+function createIdeaCard(idea,index) {
+  const card=makeElement("article","idea");
+  card.append(
+    makeElement("h3","",`${index+1}. ${idea.name}`),
+    makeElement("p","score",`Compatibilidad orientativa: ${idea.score}/100`),
+    makeElement("span","pill",idea.type),
+    makeElement("span","pill",idea.mode==="online"?"Por internet":"Servicio local"),
+    makeElement("p","",idea.desc),
+    makeElement("strong","","Coste inicial orientativo"),
+    makeElement("p","",idea.cost),
+    makeElement("strong","","Precio para investigar"),
+    makeElement("p","",idea.price),
+    makeElement("strong","","Primeros pasos")
+  );
 
-    <footer>
-      <div class="brand">NEXO<span>.</span>CERO</div>
-      <p>De una idea a algo real.</p>
-      <p>
-        Primera versión experimental. Las ideas, costes y puntuaciones
-        son orientativos. Investiga la demanda, los gastos y los requisitos
-        aplicables antes de invertir dinero.
-      </p>
-    </footer>
-  </main>
+  addList(card,idea.steps);
 
-  <script>
-    "use strict";
+  const test=makeElement("p","test");
+  test.append(makeElement("strong","","Experimento de validación: "),document.createTextNode(idea.test));
+  card.appendChild(test);
 
-    const ideas = [
-      {
-        name: "Contenido para pequeños negocios",
-        cost: 0,
-        hours: 2,
-        skills: ["creative", "tech", "learn"],
-        mode: "online",
-        type: "Servicio digital",
-        desc: "Crear publicaciones sencillas para negocios que necesitan mejorar su presencia en redes.",
-        steps: [
-          "Elige un sector, como barberías, cafeterías o tiendas.",
-          "Crea tres publicaciones de muestra con herramientas gratuitas.",
-          "Contacta a cinco negocios y pregunta qué contenido necesitan."
-        ],
-        test: "Comprueba si un negocio acepta conversar sobre una pequeña prueba pagada antes de dedicar horas a un trabajo completo."
-      },
-      {
-        name: "Reventa bajo pedido",
-        cost: 0,
-        hours: 5,
-        skills: ["sales", "organize", "learn"],
-        mode: "local",
-        type: "Comercio",
-        desc: "Investigar productos solicitados y validar compradores antes de adquirir inventario.",
-        steps: [
-          "Escoge una categoría que conozcas.",
-          "Compara precios, competencia y costes de entrega.",
-          "Pregunta a posibles compradores qué producto buscan y cuánto pagarían."
-        ],
-        test: "Valida el interés sin anunciar productos como disponibles si no puedes entregarlos ni comprometerte a cumplir el pedido."
-      },
-      {
-        name: "Asistencia virtual",
-        cost: 0,
-        hours: 2,
-        skills: ["organize", "tech", "learn"],
-        mode: "online",
-        type: "Servicio digital",
-        desc: "Ayudar a profesionales a organizar documentos, agendas u otras tareas administrativas sencillas.",
-        steps: [
-          "Elige una tarea que sepas realizar.",
-          "Prepara un ejemplo demostrativo sin información privada.",
-          "Pregunta a cinco profesionales si necesitan esa ayuda."
-        ],
-        test: "Define el alcance del trabajo y ofrece una prueba pequeña con condiciones claras."
-      },
-      {
-        name: "Diseño de currículums",
-        cost: 0,
-        hours: 2,
-        skills: ["creative", "organize", "learn"],
-        mode: "online",
-        type: "Servicio digital",
-        desc: "Crear currículums claros y personalizados con herramientas gratuitas.",
-        steps: [
-          "Diseña una plantilla sencilla.",
-          "Prepara dos ejemplos con datos ficticios.",
-          "Pide opiniones a personas que estén buscando empleo."
-        ],
-        test: "Pregunta a potenciales clientes qué les cuesta de sus currículums y qué servicio les resultaría útil."
-      },
-      {
-        name: "Guías digitales especializadas",
-        cost: 0,
-        hours: 5,
-        skills: ["creative", "tech", "learn"],
-        mode: "online",
-        type: "Producto digital",
-        desc: "Crear una guía breve que resuelva un problema concreto de un público definido.",
-        steps: [
-          "Elige un problema que conozcas.",
-          "Prepara una muestra útil de dos o tres páginas.",
-          "Pide opiniones antes de crear el producto completo."
-        ],
-        test: "Comprueba si los lectores consideran útil la guía y si existe interés real en pagar por una versión ampliada."
-      },
-      {
-        name: "Ayuda tecnológica local",
-        cost: 0,
-        hours: 2,
-        skills: ["tech", "organize", "learn"],
-        mode: "local",
-        type: "Servicio local",
-        desc: "Ayudar a personas con tareas sencillas de configuración y uso de dispositivos.",
-        steps: [
-          "Define qué tareas sabes realizar con seguridad.",
-          "Prepara una explicación clara de tu servicio.",
-          "Pregunta a conocidos qué problemas tecnológicos les gustaría resolver."
-        ],
-        test: "Comprueba si existe demanda antes de comprar herramientas o asumir gastos."
-      }
-    ];
+  const week=makeElement("div","week-plan");
+  week.appendChild(makeElement("h4","","Plan de 7 días"));
+  const ol=makeElement("ol");
+  idea.week.forEach((task,index)=>ol.appendChild(makeElement("li","",`Día ${index+1}: ${task}`)));
+  week.appendChild(ol);
+  card.appendChild(week);
 
-    function scoreIdea(idea, budget, skill, hours, mode) {
-      let score = 50;
+  const message=`Hola, estoy explorando una idea de ${idea.name.toLowerCase()}. Antes de ofrecerla, estoy hablando con personas para entender sus necesidades. ¿Te puedo hacer dos preguntas rápidas sobre cómo resuelves esto actualmente? No hay compromiso.`;
+  card.appendChild(makeElement("strong","","Mensaje inicial para adaptar"));
+  const messageBox=makeElement("div","message-box",message);
+  card.appendChild(messageBox);
 
-      if (idea.cost <= budget) score += 15;
-      if (idea.skills.includes(skill)) score += 20;
-      if (hours >= idea.hours) score += 10;
-      if (mode === "either" || mode === idea.mode) score += 5;
-
-      return Math.min(score, 100);
+  const row=makeElement("div","action-row");
+  const copyButton=makeElement("button","secondary","Copiar mensaje");
+  copyButton.type="button";
+  copyButton.addEventListener("click",async()=>{
+    try {
+      await navigator.clipboard.writeText(message);
+      copyButton.textContent="¡Copiado!";
+    } catch(error) {
+      const range=document.createRange();
+      range.selectNodeContents(messageBox);
+      const selection=window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      copyButton.textContent="Selecciona y copia el texto";
     }
+  });
+  row.appendChild(copyButton);
+  card.appendChild(row);
+  card.appendChild(makeElement("p","small-note","No gastes en inventario, anuncios o suscripciones antes de comprobar interés. Las cifras son ejemplos, no cotizaciones ni promesas de ingresos."));
+  return card;
+}
 
-    const generateButton = document.getElementById("generate");
+document.getElementById("generate").addEventListener("click",()=>{
+  const budget=Number(document.getElementById("budget").value);
+  const skill=document.getElementById("skill").value;
+  const hours=Number(document.getElementById("time").value);
+  const mode=document.getElementById("mode").value;
+  const experience=document.getElementById("experience").value;
+  const goal=document.getElementById("goal").value;
+  const resource=document.getElementById("resources").value;
+  const urgency=document.getElementById("urgency").value;
 
-    generateButton.addEventListener("click", () => {
-      const budget = Number(document.getElementById("budget").value);
-      const skill = document.getElementById("skill").value;
-      const hours = Number(document.getElementById("time").value);
-      const mode = document.getElementById("mode").value;
+  const ranked=ideas.map(idea=>({
+    ...idea,
+    score:scoreIdea(idea,budget,skill,hours,mode,experience,goal,resource,urgency)
+  })).sort((a,b)=>b.score-a.score).slice(0,3);
 
-      const ranked = ideas
-        .filter(idea => idea.cost <= budget)
-        .map(idea => ({
-          ...idea,
-          score: scoreIdea(idea, budget, skill, hours, mode)
-        }))
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 3);
+  const results=document.getElementById("results");
+  results.replaceChildren();
+  ranked.forEach((idea,index)=>results.appendChild(createIdeaCard(idea,index)));
 
-      const results = document.getElementById("results");
-      results.replaceChildren();
+  document.getElementById("resultsSection").hidden=false;
+  document.getElementById("resultsSection").scrollIntoView({behavior:"smooth"});
 
-      ranked.forEach((idea, index) => {
-        const card = document.createElement("article");
-        card.className = "idea";
+  try {
+    localStorage.setItem("nexocero_generations",String(Number(localStorage.getItem("nexocero_generations")||"0")+1));
+  } catch(error) {}
+});
 
-        const title = document.createElement("h3");
-        title.textContent = `${index + 1}. ${idea.name}`;
+document.getElementById("restart").addEventListener("click",()=>{
+  document.getElementById("resultsSection").hidden=true;
+  document.getElementById("radar").scrollIntoView({behavior:"smooth"});
+});
 
-        const score = document.createElement("p");
-        score.className = "score";
-        score.textContent =
-          `Compatibilidad aproximada: ${idea.score}/100`;
+document.getElementById("interestPro").addEventListener("click",()=>{
+  document.getElementById("proFeedback").textContent="Gracias por tu interés. Usa «Copiar mi opinión» abajo para compartirlo. No se ha registrado ni cobrado nada.";
+  document.getElementById("feedback").scrollIntoView({behavior:"smooth"});
+});
 
-        const type = document.createElement("span");
-        type.className = "pill";
-        type.textContent = idea.type;
+document.getElementById("copyFeedback").addEventListener("click",async()=>{
+  const interested=document.getElementById("proFeedback").textContent.startsWith("Gracias");
+  const text="Opinión sobre NEXO CERO: "+document.getElementById("rating").value+
+    ". Mejoraría: "+document.getElementById("feedbackText").value+
+    ". Interés en Pro: "+(interested?"Sí":"No")+
+    ". Sitio: "+location.href;
+  try {
+    await navigator.clipboard.writeText(text);
+    document.getElementById("feedbackStatus").textContent="Opinión copiada. Pégala en un mensaje para compartirla.";
+  } catch(error) {
+    document.getElementById("feedbackStatus").textContent=text+" — Selecciona y copia este texto.";
+  }
+});
 
-        const cost = document.createElement("span");
-        cost.className = "pill";
-        cost.textContent = "Diseñada para empezar con recursos mínimos";
-
-        const description = document.createElement("p");
-        description.textContent = idea.desc;
-
-        const heading = document.createElement("strong");
-        heading.textContent = "Plan de acción:";
-
-        const list = document.createElement("ul");
-
-        idea.steps.forEach(step => {
-          const li = document.createElement("li");
-          li.textContent = step;
-          list.appendChild(li);
-        });
-
-        const test = document.createElement("p");
-        test.className = "test";
-
-        const testLabel = document.createElement("strong");
-        testLabel.textContent = "Tu experimento: ";
-
-        test.append(testLabel, document.createTextNode(idea.test));
-
-        const week = document.createElement("div");
-        week.className = "week-plan";
-
-        const weekTitle = document.createElement("h4");
-        weekTitle.textContent = "Tu plan de 7 días";
-
-        const weekList = document.createElement("ol");
-
-        const weekTasks = [
-          "Día 1: define a quién ayudarás y qué problema resolverás.",
-          "Día 2: observa cinco posibles clientes y anota qué necesitan.",
-          "Día 3: prepara una muestra sencilla de tu servicio o producto.",
-          "Día 4: pide opinión a dos personas del público que elegiste.",
-          "Día 5: ajusta tu propuesta según lo que te dijeron.",
-          "Día 6: contacta a cinco posibles clientes con un mensaje respetuoso.",
-          "Día 7: revisa respuestas y decide qué mejorar."
-        ];
-
-        weekTasks.forEach(task => {
-          const li = document.createElement("li");
-          li.textContent = task;
-          weekList.appendChild(li);
-        });
-
-        week.append(weekTitle, weekList);
-
-        const messageTitle = document.createElement("strong");
-        messageTitle.textContent = "Mensaje que puedes adaptar";
-
-        const message = document.createElement("div");
-        message.className = "message-box";
-        message.textContent =
-          `Hola, estoy preparando un servicio de ${idea.name.toLowerCase()}. Estoy hablando con personas para entender qué necesitan antes de ofrecerlo. ¿Te puedo hacer dos preguntas rápidas sobre cómo resuelves esto actualmente? No hay compromiso.`;
-
-        const copyButton = document.createElement("button");
-        copyButton.type = "button";
-        copyButton.className = "copy-button";
-        copyButton.textContent = "Copiar mensaje";
-
-        copyButton.addEventListener("click", async () => {
-          try {
-            await navigator.clipboard.writeText(message.textContent);
-            copyButton.textContent = "¡Mensaje copiado!";
-          } catch {
-            copyButton.textContent =
-              "Selecciona y copia el mensaje manualmente";
-          }
-        });
-
-        const caution = document.createElement("p");
-        caution.className = "small-note";
-        caution.textContent =
-          "Este plan no garantiza ventas. No gastes dinero ni prometas resultados antes de comprobar que existe interés real.";
-
-        card.append(
-          title, score, type, cost, description, heading, list,
-          test, week, messageTitle, message, copyButton, caution
-        );
-
-        results.appendChild(card);
-      });
-
-      document.getElementById("resultsSection").hidden = false;
-      document.getElementById("resultsSection")
-        .scrollIntoView({ behavior: "smooth" });
-    });
-
-    document.getElementById("restart").addEventListener("click", () => {
-      document.getElementById("resultsSection").hidden = true;
-      document.getElementById("radar")
-        .scrollIntoView({ behavior: "smooth" });
-    });
-  </script>
+document.getElementById("shareSite").addEventListener("click",async()=>{
+  const data={
+    title:"NEXO CERO",
+    text:"Encuentra una idea de negocio adaptada a tus recursos y prueba tu primer paso.",
+    url:location.href
+  };
+  try {
+    if(navigator.share) {
+      await navigator.share(data);
+    } else {
+      await navigator.clipboard.writeText(location.href);
+      document.getElementById("feedbackStatus").textContent="Enlace copiado. ¡Compártelo!";
+    }
+  } catch(error) {
+    if(error.name!=="AbortError") {
+      document.getElementById("feedbackStatus").textContent="Comparte este enlace: "+location.href;
+    }
+  }
+});
+</script>
 </body>
 </html>
