@@ -1,2226 +1,426 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101329">
-<meta name="description" content="Convierte ideas en experimentos, mide resultados y aprende qué hacer después.">
-<title>PROYECTO 0 → 1 | Laboratorio de ideas</title>
-
-<style>
-:root {
-  --bg: #101329;
-  --bg2: #171b37;
-  --card: #ffffff;
-  --text: #20233a;
-  --muted: #737891;
-  --line: #e9eaf2;
-  --purple: #7459ef;
-  --blue: #527dff;
-  --green: #16865e;
-  --red: #c84757;
-  --orange: #c47a21;
-  --soft: #f5f6fc;
-  --radius: 20px;
-  --shadow: 0 14px 45px rgba(18, 23, 54, .12);
-}
-
-* { box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  margin: 0;
-  background: #f3f4fa;
-  color: var(--text);
-  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  line-height: 1.55;
-}
-
-button, input, select, textarea { font: inherit; }
-button { cursor: pointer; }
-button:focus-visible, input:focus-visible,
-select:focus-visible, textarea:focus-visible {
-  outline: 3px solid #b7aaff;
-  outline-offset: 2px;
-}
-
-.topbar {
-  background: var(--bg);
-  color: white;
-  padding: 15px 5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.brand {
-  border: 0;
-  background: transparent;
-  color: white;
-  font-weight: 900;
-  font-size: 18px;
-  letter-spacing: -.5px;
-}
-
-.brand span { color: #a99aff; }
-
-.nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-}
-
-.nav button {
-  background: transparent;
-  border: 1px solid transparent;
-  color: #d5d8ed;
-  padding: 9px 12px;
-  border-radius: 10px;
-  font-size: 13px;
-}
-
-.nav button:hover, .nav button.active {
-  background: #282d50;
-  color: white;
-  border-color: #41476e;
-}
-
-.app {
-  width: min(1120px, 92%);
-  margin: 30px auto 70px;
-}
-
-.screen { display: none; }
-.screen.active { display: block; animation: appear .25s ease; }
-
-@keyframes appear {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.hero {
-  position: relative;
-  overflow: hidden;
-  border-radius: 28px;
-  padding: clamp(28px, 6vw, 64px);
-  color: white;
-  background:
-    radial-gradient(circle at 90% 5%, rgba(135, 112, 255, .5), transparent 35%),
-    linear-gradient(130deg, #171a39, #30265f 58%, #4c3c94);
-  box-shadow: 0 20px 55px rgba(37, 30, 87, .2);
-}
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid rgba(255,255,255,.22);
-  background: rgba(255,255,255,.08);
-  padding: 7px 12px;
-  border-radius: 999px;
-  font-size: 12px;
-  letter-spacing: .3px;
-}
-
-.hero h1 {
-  max-width: 720px;
-  font-size: clamp(34px, 5vw, 57px);
-  line-height: 1.06;
-  letter-spacing: -2px;
-  margin: 23px 0 17px;
-}
-
-.hero p {
-  max-width: 660px;
-  color: #deddf7;
-  font-size: 16px;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 27px;
-}
-
-.btn {
-  border: 0;
-  border-radius: 12px;
-  padding: 12px 17px;
-  font-weight: 750;
-  font-size: 14px;
-  transition: transform .15s ease, opacity .15s ease;
-}
-
-.btn:hover { transform: translateY(-1px); }
-.btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
-
-.btn-primary {
-  color: white;
-  background: linear-gradient(110deg, var(--purple), var(--blue));
-  box-shadow: 0 7px 18px rgba(91, 82, 222, .2);
-}
-
-.btn-light { color: #292442; background: white; }
-.btn-outline { color: #474b68; background: white; border: 1px solid #dfe1ed; }
-.btn-danger { color: #b02e42; background: #fff0f2; }
-.btn-small { padding: 8px 11px; font-size: 12px; border-radius: 9px; }
-.btn-full { width: 100%; }
-
-.section-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin: 31px 0 17px;
-}
-
-.section-heading h2, .page-title {
-  margin: 0;
-  font-size: clamp(24px, 3vw, 32px);
-  letter-spacing: -.9px;
-}
-
-.section-heading p, .subtext {
-  color: var(--muted);
-  margin: 5px 0 0;
-  font-size: 14px;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 13px;
-  margin-top: 22px;
-}
-
-.stat, .card, .panel {
-  background: var(--card);
-  border: 1px solid #e9eaf3;
-  border-radius: var(--radius);
-  box-shadow: 0 5px 18px rgba(26, 30, 70, .035);
-}
-
-.stat { padding: 20px; min-width: 0; }
-.stat-label { color: var(--muted); font-size: 12px; font-weight: 650; }
-.stat-value { font-size: clamp(23px, 3vw, 32px); font-weight: 850; margin-top: 7px; letter-spacing: -1px; }
-.stat-foot { color: var(--muted); font-size: 11px; margin-top: 3px; }
-
-.layout-two {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(260px, .7fr);
-  gap: 17px;
-  margin-top: 18px;
-}
-
-.panel { padding: 23px; min-width: 0; }
-.panel h3 { margin: 0 0 7px; font-size: 18px; }
-.panel > p { color: var(--muted); font-size: 13px; margin-top: 0; }
-
-.quick-list { display: grid; gap: 10px; margin-top: 15px; }
-.quick-item {
-  display: flex; justify-content: space-between; align-items: center;
-  gap: 12px; padding: 13px; border: 1px solid var(--line);
-  border-radius: 13px; background: #fff;
-}
-.quick-item strong { display: block; font-size: 13px; }
-.quick-item small { color: var(--muted); font-size: 11px; }
-
-.progress-track {
-  width: 100%; height: 8px; border-radius: 99px;
-  background: #e9eaf5; overflow: hidden;
-}
-.progress-fill {
-  height: 100%; border-radius: 99px;
-  background: linear-gradient(90deg, var(--purple), var(--blue));
-  transition: width .25s ease;
-}
-
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  border-radius: 999px;
-  padding: 5px 9px;
-  background: #f0edff;
-  color: #6048c8;
-  font-size: 11px;
-  font-weight: 750;
-}
-
-.pill.green { background: #e5f7ef; color: #16744f; }
-.pill.orange { background: #fff3df; color: #9d6416; }
-.pill.red { background: #ffeaed; color: #b33448; }
-.pill.gray { background: #f0f1f6; color: #656a83; }
-
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 15px;
-  margin-top: 18px;
-}
-
-.card { padding: 20px; min-width: 0; }
-.card h3 { margin: 10px 0 8px; font-size: 18px; line-height: 1.3; }
-.card p { color: var(--muted); font-size: 13px; }
-.card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.card-icon {
-  display: grid; place-items: center; width: 42px; height: 42px;
-  border-radius: 13px; background: #efedff; font-size: 21px;
-}
-.card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 13px 0; }
-.card-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
-.card .btn { flex: 1; }
-
-.form-shell { max-width: 850px; margin: auto; }
-.form-panel { background: white; border: 1px solid var(--line); border-radius: 23px; padding: clamp(20px, 4vw, 36px); }
-.form-progress { margin: 17px 0 25px; }
-.form-progress-label { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin-bottom: 8px; }
-.field { margin: 20px 0; }
-.field label, .field-label { display: block; font-size: 14px; font-weight: 800; margin-bottom: 9px; }
-.field small { display: block; color: var(--muted); font-size: 12px; margin-top: 6px; }
-.field input:not([type="checkbox"]):not([type="radio"]),
-.field select, .field textarea,
-.search-input, .filter-select {
-  width: 100%; border: 1px solid #dedfec; border-radius: 11px;
-  padding: 12px 13px; background: white; color: var(--text);
-}
-.field textarea { resize: vertical; min-height: 90px; }
-.choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
-.choice {
-  position: relative; display: block; border: 1px solid #e0e2ee;
-  border-radius: 13px; padding: 14px; cursor: pointer; background: #fff;
-  transition: border-color .15s, background .15s;
-}
-.choice:hover { border-color: #a89af7; }
-.choice:has(input:checked) { border-color: var(--purple); background: #f4f1ff; }
-.choice input { accent-color: var(--purple); margin-right: 7px; }
-.choice strong { font-size: 13px; }
-.choice small { display: block; margin: 5px 0 0 24px; color: var(--muted); font-size: 11px; }
-.form-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 27px; }
-
-.filter-row { display: flex; gap: 9px; flex-wrap: wrap; margin: 18px 0; }
-.search-input { flex: 1; min-width: 190px; }
-.filter-select { width: auto; min-width: 155px; }
-
-.breakdown { display: grid; gap: 12px; margin: 15px 0; }
-.breakdown-row { display: grid; grid-template-columns: 120px minmax(70px,1fr) 40px; align-items: center; gap: 10px; font-size: 12px; }
-.breakdown-row span:first-child { color: var(--muted); }
-.reason-list { display: grid; gap: 7px; margin: 12px 0; }
-.reason { background: #f7f7fc; border-radius: 9px; padding: 9px 11px; font-size: 12px; }
-
-.task {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 15px 0; border-bottom: 1px solid var(--line);
-}
-.task:last-child { border-bottom: 0; }
-.task input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--purple); }
-.task.done strong { color: #888ba0; text-decoration: line-through; }
-.task strong { display: block; font-size: 14px; }
-.task p { color: var(--muted); font-size: 12px; margin: 4px 0 0; }
-.task-day { font-size: 10px; color: var(--purple); font-weight: 900; text-transform: uppercase; letter-spacing: .5px; }
-
-.callout {
-  border: 1px solid #ded9ff; background: #f6f4ff; border-radius: 14px;
-  padding: 15px; font-size: 13px; margin: 15px 0;
-}
-.callout strong { display: block; margin-bottom: 4px; }
-.muted { color: var(--muted); }
-.empty {
-  border: 1px dashed #cfd2e4; border-radius: 18px; padding: 35px 20px;
-  text-align: center; color: var(--muted); background: white;
-}
-.empty strong { display: block; color: var(--text); font-size: 17px; margin-bottom: 7px; }
-.metric-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin: 15px 0; }
-.metric { background: #f6f7fc; padding: 14px; border-radius: 13px; min-width: 0; }
-.metric small { display: block; color: var(--muted); font-size: 11px; }
-.metric strong { display: block; font-size: 21px; margin-top: 4px; overflow-wrap: anywhere; }
-.footer {
-  text-align: center; padding: 25px 10px; color: #878ba2; font-size: 11px;
-}
-.toast {
-  position: fixed; right: 18px; bottom: 18px; z-index: 20;
-  background: #191c37; color: white; padding: 13px 17px; border-radius: 12px;
-  box-shadow: var(--shadow); max-width: min(380px, calc(100vw - 36px));
-  font-size: 13px; opacity: 0; transform: translateY(12px);
-  pointer-events: none; transition: .2s;
-}
-.toast.show { opacity: 1; transform: translateY(0); }
-.hidden { display: none !important; }
-hr { border: 0; border-top: 1px solid var(--line); margin: 20px 0; }
-
-@media (max-width: 850px) {
-  .stats { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .card-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .layout-two { grid-template-columns: 1fr; }
-}
-@media (max-width: 560px) {
-  .topbar { align-items: flex-start; }
-  .nav { width: 100%; }
-  .nav button { flex: 1; padding: 8px 5px; font-size: 11px; }
-  .app { width: 94%; margin-top: 16px; }
-  .hero { border-radius: 21px; }
-  .hero h1 { letter-spacing: -1.3px; }
-  .card-grid { grid-template-columns: 1fr; }
-  .choice-grid { grid-template-columns: 1fr; }
-  .metric-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .breakdown-row { grid-template-columns: 90px minmax(40px,1fr) 32px; gap: 7px; }
-  .form-actions { flex-wrap: wrap; }
-  .form-actions .btn { flex: 1; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NEXO CERO te ayuda a encontrar ideas de negocio de bajo costo y probarlas antes de invertir.">
+  <meta name="theme-color" content="#0b1020">
+  <title>NEXO CERO | De una idea a algo real</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #141c30;
+      --line: #293650;
+      --text: #f4f7ff;
+      --muted: #a8b4ca;
+      --accent: #b8f36b;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+    .wrap { width: min(940px, 92%); margin: auto; }
+    header {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { font-weight: 900; letter-spacing: 2px; font-size: 20px; }
+    .brand span { color: var(--accent); }
+    .hero { padding: 62px 0 32px; }
+    .tag {
+      color: var(--accent);
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+    h1 {
+      font-size: clamp(36px, 7vw, 64px);
+      line-height: 1.06;
+      letter-spacing: -2px;
+      margin: 15px 0;
+    }
+    h2 { font-size: 24px; line-height: 1.25; }
+    h3 { line-height: 1.3; }
+    p { color: var(--muted); }
+    .hero p { font-size: 18px; max-width: 650px; }
+    .accent { color: var(--accent); }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 26px;
+      margin: 24px 0;
+    }
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+    label { display: block; font-weight: 650; margin-bottom: 8px; }
+    select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      background: #0b1020;
+      color: var(--text);
+      border: 1px solid #40506d;
+      font-size: 15px;
+    }
+    select:focus, button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 15px 20px;
+      background: var(--accent);
+      color: #14200b;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    button:hover { filter: brightness(1.06); }
+    button:disabled { opacity: .6; cursor: wait; }
+    .main-button { width: 100%; margin-top: 24px; }
+    .results { display: grid; gap: 18px; }
+    .idea {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .idea h3 { margin: 7px 0; font-size: 22px; }
+    .score { color: var(--accent); font-weight: 800; }
+    .pill {
+      display: inline-block;
+      border: 1px solid #40506d;
+      border-radius: 30px;
+      padding: 4px 10px;
+      color: var(--muted);
+      font-size: 12px;
+      margin: 4px 4px 4px 0;
+    }
+    .idea ul { padding-left: 22px; }
+    .idea li { margin: 8px 0; }
+    .test {
+      padding: 13px;
+      border-left: 3px solid var(--accent);
+      background: #0e1628;
+      border-radius: 0 8px 8px 0;
+    }
+    .test strong { color: var(--text); }
+    .section-intro { margin-top: -8px; }
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .how-card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .number { color: var(--accent); font-weight: 900; font-size: 23px; }
+    .notice { font-size: 13px; }
+    footer {
+      padding: 30px 0 42px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+      margin-top: 40px;
+    }
+    [hidden] { display: none !important; }
+    @media (max-width: 620px) {
+      .fields, .how-grid { grid-template-columns: 1fr; }
+      .panel { padding: 19px; }
+      .hero { padding-top: 42px; }
+      h1 { letter-spacing: -1px; }
+    }
+  </style>
 </head>
-
 <body>
-<header class="topbar">
-  <button class="brand" onclick="irA('inicio')" aria-label="Ir al inicio">
-    PROYECTO <span>0 → 1</span>
-  </button>
-  <nav class="nav" aria-label="Navegación principal">
-    <button data-nav="inicio" class="active" onclick="irA('inicio')">Inicio</button>
-    <button data-nav="misProyectos" onclick="irA('misProyectos')">Mis proyectos</button>
-    <button data-nav="biblioteca" onclick="irA('biblioteca')">Ideas</button>
-    <button data-nav="cuestionario" onclick="iniciarNuevoProyecto()">Nuevo experimento</button>
-  </nav>
-</header>
+  <header>
+    <div class="wrap brand">NEXO<span>.</span>CERO</div>
+  </header>
 
-<main class="app">
+  <main class="wrap">
+    <section class="hero">
+      <div class="tag">Tu punto de partida</div>
+      <h1>Empieza con lo que tienes.<br><span class="accent">Construye algo real.</span></h1>
+      <p>Descubre ideas de negocio que se ajustan a tu dinero, tus habilidades y tu tiempo. Después, prueba si existe interés antes de arriesgar tus ahorros.</p>
+      <a href="#radar" style="display:inline-block;margin-top:12px;color:#b8f36b;font-weight:800;">Encuentra tu primera idea ↓</a>
+    </section>
 
-  <!-- INICIO / DASHBOARD -->
-  <section id="inicio" class="screen active">
-    <div class="hero">
-      <span class="eyebrow">✦ TU LABORATORIO DE IDEAS</span>
-      <h1>Deja de esperar la idea perfecta. Empieza a probar.</h1>
-      <p>
-        Define lo que tienes, encuentra oportunidades, ejecuta un experimento
-        de siete días y aprende de los resultados. Un paso real vale más que
-        cien ideas guardadas.
-      </p>
-      <div class="hero-actions">
-        <button class="btn btn-light" onclick="iniciarNuevoProyecto()">Crear experimento →</button>
-        <button class="btn btn-outline" onclick="irA('misProyectos')">Ver mis proyectos</button>
-      </div>
-    </div>
+    <section class="panel" id="radar">
+      <div class="tag">Herramienta gratuita</div>
+      <h2>Radar de Ideas</h2>
+      <p>Cuéntanos con qué empiezas. Te mostraremos oportunidades y una forma práctica de probarlas.</p>
 
-    <div class="section-heading">
-      <div>
-        <h2>Tu centro de control</h2>
-        <p>El progreso se calcula a partir de los datos que registres.</p>
-      </div>
-      <span class="pill">Versión 5.0</span>
-    </div>
-
-    <div class="stats" id="dashboardStats"></div>
-
-    <div class="layout-two">
-      <div class="panel">
-        <h3>Continúa donde te quedaste</h3>
-        <p>Tus proyectos en curso y el siguiente paso pendiente.</p>
-        <div id="proyectosRecientes" class="quick-list"></div>
-      </div>
-      <div class="panel">
-        <h3>Lo que has aprendido</h3>
-        <p>Los resultados registrados alimentan estas métricas.</p>
-        <div id="aprendizajesDashboard"></div>
-      </div>
-    </div>
-
-    <div class="section-heading">
-      <div>
-        <h2>Tu próxima acción</h2>
-        <p>Evita quedarte en la planificación: ejecuta una tarea concreta.</p>
-      </div>
-    </div>
-    <div id="proximaAccion"></div>
-
-    <div class="section-heading">
-      <div>
-        <h2>Cómo funciona</h2>
-        <p>Un ciclo sencillo que puedes repetir y mejorar.</p>
-      </div>
-    </div>
-    <div class="card-grid">
-      <article class="card">
-        <div class="card-icon">🧭</div>
-        <h3>1. Encuentra una oportunidad</h3>
-        <p>Comparamos tus recursos y preferencias con ideas de productos, servicios, contenido y tecnología.</p>
-      </article>
-      <article class="card">
-        <div class="card-icon">🧪</div>
-        <h3>2. Prueba algo pequeño</h3>
-        <p>Define una hipótesis, una meta y siete acciones concretas. No necesitas construirlo todo de golpe.</p>
-      </article>
-      <article class="card">
-        <div class="card-icon">📈</div>
-        <h3>3. Aprende del resultado</h3>
-        <p>Registra actividad, ventas, ingresos y tiempo. Decide si continuar, ajustar o cambiar de enfoque.</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- CUESTIONARIO -->
-  <section id="cuestionario" class="screen">
-    <div class="form-shell">
-      <div class="section-heading">
+      <div class="fields">
         <div>
-          <h2>Construyamos tu perfil</h2>
-          <p>Responde con honestidad. No necesitas tenerlo todo resuelto.</p>
-        </div>
-      </div>
-
-      <form id="perfilForm" class="form-panel">
-        <div class="form-progress">
-          <div class="form-progress-label">
-            <span>Perfil de oportunidad</span>
-            <span>8 preguntas</span>
-          </div>
-          <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
-        </div>
-
-        <div class="field">
-          <label for="presupuesto">1. ¿Con cuánto dinero puedes empezar?</label>
-          <select id="presupuesto" required>
+          <label for="budget">¿Cuánto puedes invertir?</label>
+          <select id="budget">
             <option value="0">$0 MXN</option>
             <option value="500">$500 MXN</option>
-            <option value="2000">$2,000 MXN</option>
-            <option value="5000">$5,000 MXN o más</option>
-          </select>
-          <small>Elige dinero que puedas permitirte invertir, no dinero que necesites para gastos esenciales.</small>
-        </div>
-
-        <div class="field">
-          <label for="tiempo">2. ¿Cuánto tiempo puedes dedicar diariamente?</label>
-          <select id="tiempo" required>
-            <option value="30">30 minutos</option>
-            <option value="90">1–2 horas</option>
-            <option value="180">3 horas o más</option>
+            <option value="1500">$1,500 MXN</option>
+            <option value="3000">$3,000 MXN</option>
           </select>
         </div>
-
-        <div class="field">
-          <label for="interes">3. ¿Qué te interesa crear?</label>
-          <select id="interes" required>
-            <option value="productos">Vender productos</option>
-            <option value="servicios">Vender servicios</option>
-            <option value="contenido">Crear contenido</option>
-            <option value="tecnologia">Crear tecnología</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="riesgo">4. ¿Qué nivel de riesgo prefieres?</label>
-          <select id="riesgo" required>
-            <option value="bajo">Prefiero experimentar con poco riesgo</option>
-            <option value="medio">Riesgo moderado</option>
-            <option value="alto">Estoy dispuesto a experimentar más</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <span class="field-label">5. ¿Qué habilidades tienes o te gustaría usar?</span>
-          <div class="choice-grid">
-            <label class="choice"><input type="checkbox" name="habilidades" value="ventas"><strong>Ventas</strong><small>Negociar, ofrecer y cerrar ventas.</small></label>
-            <label class="choice"><input type="checkbox" name="habilidades" value="diseno"><strong>Diseño</strong><small>Crear piezas visuales y presentaciones.</small></label>
-            <label class="choice"><input type="checkbox" name="habilidades" value="tecnologia"><strong>Tecnología</strong><small>Web, herramientas y automatización.</small></label>
-            <label class="choice"><input type="checkbox" name="habilidades" value="comunicacion"><strong>Comunicación</strong><small>Explicar, escribir y conectar.</small></label>
-            <label class="choice"><input type="checkbox" name="habilidades" value="organizacion"><strong>Organización</strong><small>Procesos, seguimiento y planificación.</small></label>
-            <label class="choice"><input type="checkbox" name="habilidades" value="creatividad"><strong>Creatividad</strong><small>Conceptos, ideas y soluciones nuevas.</small></label>
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="mercado">6. ¿Dónde te gustaría encontrar clientes o audiencia?</label>
-          <select id="mercado" required>
-            <option value="local">En mi ciudad o zona</option>
-            <option value="internet">Principalmente por internet</option>
-            <option value="ambos">Ambos</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="objetivo">7. ¿Qué quieres conseguir primero?</label>
-          <select id="objetivo" required>
-            <option value="ingresos">Generar ingresos</option>
-            <option value="audiencia">Construir una audiencia</option>
-            <option value="aprender">Aprender una habilidad</option>
-            <option value="producto">Crear un producto</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="experiencia">8. ¿Qué experiencia tienes actualmente?</label>
-          <select id="experiencia">
-            <option value="principiante">Estoy empezando desde cero</option>
-            <option value="algo">Ya he probado algunas ideas</option>
-            <option value="experiencia">Ya he vendido o lanzado algo</option>
-          </select>
-        </div>
-
-        <div class="callout">
-          <strong>Una regla del laboratorio</strong>
-          La puntuación indica compatibilidad con tus respuestas, no una
-          probabilidad de éxito. Las oportunidades deberán validarse con
-          personas reales y resultados medibles.
-        </div>
-
-        <div class="form-actions">
-          <button type="button" class="btn btn-outline" onclick="irA('inicio')">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Analizar oportunidades →</button>
-        </div>
-      </form>
-    </div>
-  </section>
-
-  <!-- RESULTADOS DE RECOMENDACIÓN -->
-  <section id="resultados" class="screen">
-    <div class="section-heading">
-      <div>
-        <h2>Oportunidades para explorar</h2>
-        <p id="resumenPerfil"></p>
-      </div>
-      <button class="btn btn-outline" onclick="iniciarNuevoProyecto()">Cambiar perfil</button>
-    </div>
-    <div class="callout">
-      <strong>Cómo leer las puntuaciones</strong>
-      Son una comparación interna basada en tus preferencias y el historial
-      guardado en este navegador. No representan ganancias esperadas ni
-      validación de mercado.
-    </div>
-    <div id="listaRecomendaciones" class="card-grid"></div>
-  </section>
-
-  <!-- CREACIÓN DEL EXPERIMENTO -->
-  <section id="crearProyecto" class="screen">
-    <div class="form-shell">
-      <div class="section-heading">
         <div>
-          <h2>Diseña tu experimento</h2>
-          <p>Haz que la idea se convierta en una prueba que puedas medir.</p>
-        </div>
-      </div>
-      <form id="proyectoForm" class="form-panel">
-        <div id="ideaElegida" class="callout"></div>
-
-        <div class="field">
-          <label for="nombreProyecto">Nombre del proyecto</label>
-          <input id="nombreProyecto" required maxlength="70" placeholder="Ej. Validar un servicio de diseño para negocios">
-        </div>
-
-        <div class="field">
-          <label for="hipotesis">¿Qué crees que va a pasar?</label>
-          <textarea id="hipotesis" maxlength="600" required placeholder="Ej. Si ofrezco mejorar publicaciones a 10 negocios, al menos 2 pedirán más información."></textarea>
-          <small>Escribe una predicción que puedas comprobar. No es una promesa de resultado.</small>
-        </div>
-
-        <div class="field">
-          <label for="variable">¿Qué variable vas a probar o cambiar?</label>
-          <select id="variable">
-            <option value="oferta">La oferta o propuesta de valor</option>
-            <option value="precio">El precio</option>
-            <option value="canal">El canal de difusión</option>
-            <option value="audiencia">El tipo de cliente</option>
-            <option value="mensaje">El mensaje o llamado a la acción</option>
-            <option value="formato">El formato del producto o contenido</option>
+          <label for="skill">¿Qué se te da mejor?</label>
+          <select id="skill">
+            <option value="sales">Vender y hablar con personas</option>
+            <option value="creative">Crear, diseñar o escribir</option>
+            <option value="tech">Tecnología y computadoras</option>
+            <option value="organize">Organizar y resolver problemas</option>
+            <option value="learn">Estoy dispuesto a aprender</option>
           </select>
         </div>
-
-        <div class="field">
-          <label for="metricaObjetivo">¿Qué métrica vas a observar?</label>
-          <select id="metricaObjetivo">
-            <option value="clientes">Clientes o personas interesadas</option>
-            <option value="ventas">Ventas realizadas</option>
-            <option value="ingresos">Ingresos registrados (MXN)</option>
-            <option value="interacciones">Visitas o interacciones</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="meta">¿Cuál es tu meta para los siete días?</label>
-          <input id="meta" type="number" min="1" max="1000000" step="1" value="3" required>
-          <small>El número de la meta corresponde a la métrica seleccionada. Para ingresos, escribe pesos mexicanos.</small>
-        </div>
-
-        <div class="field">
-          <label for="oferta">¿Qué ofrecerás exactamente?</label>
-          <textarea id="oferta" maxlength="500" placeholder="Describe el producto, servicio o contenido que probarás."></textarea>
-        </div>
-
-        <div class="field">
-          <label for="canal">¿Dónde harás la prueba?</label>
-          <input id="canal" maxlength="160" placeholder="Ej. WhatsApp, negocios locales, Instagram, una landing page">
-        </div>
-
-        <div class="field">
-          <label for="precio">Precio previsto (MXN, opcional)</label>
-          <input id="precio" type="number" min="0" max="10000000" step="0.01" placeholder="0">
-        </div>
-
-        <div class="form-actions">
-          <button type="button" class="btn btn-outline" onclick="irA('resultados')">Volver</button>
-          <button type="submit" class="btn btn-primary">Crear plan de 7 días →</button>
-        </div>
-      </form>
-    </div>
-  </section>
-
-  <!-- PLAN DE PROYECTO -->
-  <section id="planProyecto" class="screen">
-    <div id="detalleProyecto"></div>
-  </section>
-
-  <!-- REGISTRO DE RESULTADOS -->
-  <section id="resultadoExperimento" class="screen">
-    <div class="form-shell">
-      <div class="section-heading">
         <div>
-          <h2>¿Qué ocurrió en la prueba?</h2>
-          <p>Registra lo que pasó, no lo que esperabas que pasara.</p>
-        </div>
-      </div>
-
-      <form id="resultadoForm" class="form-panel">
-        <div id="resultadoNombre" class="callout"></div>
-
-        <div class="metric-grid">
-          <div class="metric"><small>Meta definida</small><strong id="metaResumen">—</strong></div>
-          <div class="metric"><small>Presupuesto inicial</small><strong id="presupuestoResumen">—</strong></div>
-          <div class="metric"><small>Duración</small><strong>7 días</strong></div>
-        </div>
-
-        <div class="field">
-          <label for="resVentas">Ventas realizadas</label>
-          <input id="resVentas" type="number" min="0" max="100000000" step="1" value="0" required>
-        </div>
-        <div class="field">
-          <label for="resClientes">Clientes o contactos interesados</label>
-          <input id="resClientes" type="number" min="0" max="100000000" step="1" value="0" required>
-        </div>
-        <div class="field">
-          <label for="resInteracciones">Visitas o interacciones</label>
-          <input id="resInteracciones" type="number" min="0" max="100000000" step="1" value="0" required>
-        </div>
-        <div class="field">
-          <label for="resIngresos">Ingresos obtenidos (MXN)</label>
-          <input id="resIngresos" type="number" min="0" max="1000000000" step="0.01" value="0" required>
-        </div>
-        <div class="field">
-          <label for="resHoras">Horas realmente invertidas</label>
-          <input id="resHoras" type="number" min="0" max="100000" step="0.25" value="0" required>
-        </div>
-
-        <div class="field">
-          <label for="evaluacion">¿Cómo evaluarías este experimento?</label>
-          <select id="evaluacion" required>
-            <option value="funciono">Funcionó: hay una señal que vale la pena explorar</option>
-            <option value="ajustes">Necesita ajustes: aprendí algo, pero debo cambiar la prueba</option>
-            <option value="noFunciono">No funcionó como esperaba: probaré otro enfoque</option>
+          <label for="time">¿Cuánto tiempo tienes por semana?</label>
+          <select id="time">
+            <option value="2">1–3 horas</option>
+            <option value="5">4–7 horas</option>
+            <option value="10">8 horas o más</option>
           </select>
-          <small>Es una evaluación personal. Los datos registrados se mostrarán por separado.</small>
         </div>
-
-        <div class="field">
-          <label for="resNotas">¿Qué aprendiste? ¿Qué obstáculos encontraste?</label>
-          <textarea id="resNotas" maxlength="3000" placeholder="Ej. 5 personas respondieron, pero el precio fue una objeción frecuente."></textarea>
+        <div>
+          <label for="mode">¿Cómo prefieres trabajar?</label>
+          <select id="mode">
+            <option value="online">Por internet</option>
+            <option value="local">Con clientes de mi zona</option>
+            <option value="either">Me da igual</option>
+          </select>
         </div>
+      </div>
+      <button class="main-button" id="generate" type="button">Encontrar mis ideas →</button>
+      <p class="notice">No necesitas registrarte. Tus respuestas se procesan en esta página y no se envían a un servidor.</p>
+    </section>
 
-        <div class="form-actions">
-          <button type="button" class="btn btn-outline" onclick="abrirProyectoActual()">Volver al proyecto</button>
-          <button type="submit" class="btn btn-primary">Guardar y analizar →</button>
+    <section id="resultsSection" hidden aria-live="polite">
+      <div class="tag">Tu siguiente paso</div>
+      <h2>Tus oportunidades iniciales</h2>
+      <p class="section-intro">Empieza por la opción que puedas probar más fácilmente. Las puntuaciones miden compatibilidad aproximada, no garantizan ventas.</p>
+      <div id="results" class="results"></div>
+      <div class="panel">
+        <h2>La regla de NEXO CERO</h2>
+        <p>Antes de gastar, busca evidencia. Habla con posibles clientes, entiende el problema y comprueba si alguien realmente quiere pagar por resolverlo.</p>
+        <button type="button" id="restart">Probar otras respuestas</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="tag">Nuestro método</div>
+      <h2>De la idea a la evidencia</h2>
+      <div class="how-grid">
+        <div class="how-card">
+          <div class="number">01</div>
+          <h3>Encuentra</h3>
+          <p>Elige un problema que puedas ayudar a resolver.</p>
         </div>
-      </form>
-    </div>
-  </section>
-
-  <!-- ANÁLISIS -->
-  <section id="analisisProyecto" class="screen">
-    <div id="contenidoAnalisis"></div>
-  </section>
-
-  <!-- MIS PROYECTOS -->
-  <section id="misProyectos" class="screen">
-    <div class="section-heading">
-      <div>
-        <h2>Mis proyectos</h2>
-        <p>Consulta tus experimentos, tareas, resultados y aprendizajes.</p>
+        <div class="how-card">
+          <div class="number">02</div>
+          <h3>Experimenta</h3>
+          <p>Prueba el interés con acciones pequeñas y económicas.</p>
+        </div>
+        <div class="how-card">
+          <div class="number">03</div>
+          <h3>Aprende</h3>
+          <p>Usa los resultados para mejorar, cambiar o descartar la idea.</p>
+        </div>
       </div>
-      <button class="btn btn-primary" onclick="iniciarNuevoProyecto()">+ Nuevo experimento</button>
-    </div>
+    </section>
 
-    <div class="filter-row">
-      <input id="buscarProyecto" class="search-input" placeholder="Buscar por nombre o categoría..." oninput="mostrarMisProyectos()">
-      <select id="filtroEstado" class="filter-select" onchange="mostrarMisProyectos()">
-        <option value="todos">Todos los estados</option>
-        <option value="En curso">En curso</option>
-        <option value="Completado">Completado</option>
-        <option value="Analizado">Analizado</option>
-      </select>
-    </div>
+    <footer>
+      <div class="brand">NEXO<span>.</span>CERO</div>
+      <p>De una idea a algo real.</p>
+      <p>Primera versión experimental. Las ideas, costes y puntuaciones son orientativos. Investiga la demanda, los gastos y los requisitos aplicables antes de invertir dinero.</p>
+    </footer>
+  </main>
 
-    <div id="listaProyectos" class="card-grid"></div>
+  <script>
+    "use strict";
 
-    <div class="section-heading">
-      <div>
-        <h2>Aprendizajes acumulados</h2>
-        <p>Tu historial puede ayudarte a elegir qué probar después.</p>
-      </div>
-    </div>
-    <div id="historialAprendizajes" class="layout-two"></div>
-
-    <div class="section-heading">
-      <div>
-        <h2>Tus datos</h2>
-        <p>Haz una copia de seguridad antes de cambiar de navegador o dispositivo.</p>
-      </div>
-    </div>
-    <div class="panel">
-      <h3>Exportar o importar</h3>
-      <p>La exportación genera un archivo JSON con tus proyectos. No se envía a ningún servidor.</p>
-      <div class="hero-actions">
-        <button class="btn btn-primary" onclick="exportarDatos()">Exportar respaldo JSON</button>
-        <button class="btn btn-outline" onclick="document.getElementById('archivoImportar').click()">Importar respaldo</button>
-        <button class="btn btn-danger" onclick="reiniciarDatos()">Borrar todos mis datos</button>
-      </div>
-      <input id="archivoImportar" class="hidden" type="file" accept=".json,application/json" onchange="importarDatos(event)">
-      <small class="muted">Importar reemplazará los proyectos actuales después de tu confirmación. Exporta primero si deseas conservarlos.</small>
-    </div>
-  </section>
-
-  <!-- BIBLIOTECA DE IDEAS -->
-  <section id="biblioteca" class="screen">
-    <div class="section-heading">
-      <div>
-        <h2>Biblioteca de oportunidades</h2>
-        <p>Explora conceptos que pueden convertirse en experimentos. No son negocios validados.</p>
-      </div>
-      <button class="btn btn-primary" onclick="iniciarNuevoProyecto()">Personalizar recomendaciones</button>
-    </div>
-    <div class="filter-row">
-      <input id="buscarIdea" class="search-input" placeholder="Buscar ideas..." oninput="mostrarBiblioteca()">
-      <select id="filtroCategoria" class="filter-select" onchange="mostrarBiblioteca()">
-        <option value="todas">Todas las categorías</option>
-        <option value="productos">Productos</option>
-        <option value="servicios">Servicios</option>
-        <option value="contenido">Contenido</option>
-        <option value="tecnologia">Tecnología</option>
-      </select>
-    </div>
-    <div id="listaBiblioteca" class="card-grid"></div>
-  </section>
-
-  <footer class="footer">
-    PROYECTO 0 → 1 · Laboratorio de experimentos personales<br>
-    Las puntuaciones son orientativas. Los resultados dependen de la ejecución y del mercado.
-  </footer>
-</main>
-
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-<script>
-"use strict";
-
-/* =========================================================
-   1. DATOS Y CONFIGURACIÓN
-========================================================= */
-
-const STORAGE_KEY = "proyectos01_v5";
-const OLD_STORAGE_KEY = "proyectos01";
-
-let perfilActual = null;
-let recomendacionesActuales = [];
-let ideaSeleccionada = null;
-let proyectoActualId = null;
-let toastTimeout = null;
-
-const categorias = {
-  productos: { nombre: "Productos", icono: "📦" },
-  servicios: { nombre: "Servicios", icono: "🛠️" },
-  contenido: { nombre: "Contenido", icono: "🎥" },
-  tecnologia: { nombre: "Tecnología", icono: "💻" }
-};
-
-const planesBase = [
-  {
-    titulo: "Define una oferta concreta",
-    descripcion: "Escribe qué ofreces, para quién y qué problema intentas resolver."
-  },
-  {
-    titulo: "Investiga a cinco posibles clientes",
-    descripcion: "Busca conversaciones, reseñas o preguntas reales sobre el problema."
-  },
-  {
-    titulo: "Crea una versión mínima",
-    descripcion: "Prepara una muestra, demostración o publicación sencilla."
-  },
-  {
-    titulo: "Muestra tu propuesta",
-    descripcion: "Presenta la oferta a personas relevantes o publícala en el canal elegido."
-  },
-  {
-    titulo: "Habla con personas interesadas",
-    descripcion: "Haz preguntas y registra dudas, objeciones y respuestas."
-  },
-  {
-    titulo: "Ajusta una sola variable",
-    descripcion: "Modifica el mensaje, la oferta, el precio o el canal, sin cambiar todo a la vez."
-  },
-  {
-    titulo: "Cierra el experimento",
-    descripcion: "Cuenta las métricas, registra el tiempo invertido y anota qué aprendiste."
-  }
-];
-
-const ideas = [
-  {
-    id: "p1", titulo: "Reventa sin inventario",
-    interes: "productos", minBudget: 0, inversion: "Baja si validas antes de comprar",
-    tiempo: 30, riesgo: "bajo", mercados: ["internet","ambos"],
-    habilidades: ["ventas","comunicacion","organizacion"],
-    objetivo: ["ingresos","aprender"], dificultad: "Baja",
-    descripcion: "Investiga productos disponibles con proveedores y valida el interés antes de comprometer capital.",
-    primerPaso: "Habla con posibles compradores y verifica precio, entrega y margen antes de ofrecer."
-  },
-  {
-    id: "p2", titulo: "Reventa local de segunda mano",
-    interes: "productos", minBudget: 500, inversion: "Desde $500 MXN",
-    tiempo: 90, riesgo: "medio", mercados: ["local","ambos"],
-    habilidades: ["ventas","organizacion"],
-    objetivo: ["ingresos","aprender"], dificultad: "Media",
-    descripcion: "Encuentra artículos infravalorados, calcula todos los costos y prueba una reventa pequeña.",
-    primerPaso: "Compara al menos diez anuncios y calcula el margen neto de tres opciones."
-  },
-  {
-    id: "p3", titulo: "Producto ganador en pequeño",
-    interes: "productos", minBudget: 2000, inversion: "Requiere validar costos",
-    tiempo: 90, riesgo: "alto", mercados: ["local","internet","ambos"],
-    habilidades: ["ventas","organizacion"],
-    objetivo: ["ingresos","producto"], dificultad: "Alta",
-    descripcion: "Prueba una categoría de producto con demanda observable y competencia analizada.",
-    primerPaso: "Compara precios, reseñas, costos y alternativas antes de comprar inventario."
-  },
-  {
-    id: "p4", titulo: "Paquetes de regalo personalizados",
-    interes: "productos", minBudget: 500, inversion: "Ajustable al pedido",
-    tiempo: 90, riesgo: "medio", mercados: ["local","ambos"],
-    habilidades: ["creatividad","ventas","diseno"],
-    objetivo: ["ingresos","producto"], dificultad: "Media",
-    descripcion: "Diseña una propuesta de regalo para una ocasión o tipo de cliente específico.",
-    primerPaso: "Crea un ejemplo con costos calculados y pregunta a cinco personas qué cambiarían."
-  },
-  {
-    id: "s1", titulo: "Microservicio digital",
-    interes: "servicios", minBudget: 0, inversion: "Muy baja",
-    tiempo: 30, riesgo: "bajo", mercados: ["internet","ambos"],
-    habilidades: ["diseno","comunicacion","tecnologia"],
-    objetivo: ["ingresos","aprender"], dificultad: "Baja",
-    descripcion: "Resuelve una tarea pequeña: presentaciones, documentos, edición básica o páginas sencillas.",
-    primerPaso: "Elige un problema específico y crea una muestra antes de contactar posibles clientes."
-  },
-  {
-    id: "s2", titulo: "Servicio especializado",
-    interes: "servicios", minBudget: 0, inversion: "Muy baja",
-    tiempo: 90, riesgo: "medio", mercados: ["local","internet","ambos"],
-    habilidades: ["organizacion","comunicacion","ventas"],
-    objetivo: ["ingresos","aprender"], dificultad: "Media",
-    descripcion: "Ofrece una solución concreta a un grupo delimitado de clientes.",
-    primerPaso: "Define cliente, problema, entregable, plazo y precio de prueba."
-  },
-  {
-    id: "s3", titulo: "Microagencia de una persona",
-    interes: "servicios", minBudget: 500, inversion: "Baja",
-    tiempo: 180, riesgo: "medio", mercados: ["internet","ambos"],
-    habilidades: ["ventas","diseno","organizacion"],
-    objetivo: ["ingresos","producto"], dificultad: "Media",
-    descripcion: "Agrupa un servicio repetible para pequeños negocios en un paquete claro.",
-    primerPaso: "Identifica un resultado que puedas entregar de manera consistente y rentable."
-  },
-  {
-    id: "s4", titulo: "Optimización de publicaciones",
-    interes: "servicios", minBudget: 0, inversion: "Muy baja",
-    tiempo: 90, riesgo: "bajo", mercados: ["local","internet","ambos"],
-    habilidades: ["comunicacion","creatividad","ventas"],
-    objetivo: ["ingresos","aprender"], dificultad: "Baja",
-    descripcion: "Ayuda a negocios a mejorar claridad, fotos, títulos o información de sus anuncios.",
-    primerPaso: "Selecciona tres anuncios públicos y prepara sugerencias respetuosas y concretas."
-  },
-  {
-    id: "c1", titulo: "Canal experimental sin mostrar tu cara",
-    interes: "contenido", minBudget: 0, inversion: "Baja",
-    tiempo: 90, riesgo: "medio", mercados: ["internet"],
-    habilidades: ["creatividad","comunicacion","organizacion"],
-    objetivo: ["audiencia","aprender"], dificultad: "Media",
-    descripcion: "Publica una serie de contenido sobre un problema concreto, con guiones, narración o capturas.",
-    primerPaso: "Diseña tres piezas sobre una misma pregunta y define qué señal de audiencia medirás."
-  },
-  {
-    id: "c2", titulo: "Laboratorio de contenido",
-    interes: "contenido", minBudget: 0, inversion: "Baja",
-    tiempo: 180, riesgo: "medio", mercados: ["internet"],
-    habilidades: ["creatividad","organizacion","tecnologia"],
-    objetivo: ["audiencia","aprender"], dificultad: "Media",
-    descripcion: "Compara formatos y enfoques para descubrir cuáles despiertan interés real.",
-    primerPaso: "Crea dos versiones de una misma idea y registra retención, comentarios o clics."
-  },
-  {
-    id: "c3", titulo: "Contenido más producto digital",
-    interes: "contenido", minBudget: 0, inversion: "Baja",
-    tiempo: 180, riesgo: "alto", mercados: ["internet"],
-    habilidades: ["diseno","creatividad","comunicacion"],
-    objetivo: ["audiencia","producto","ingresos"], dificultad: "Alta",
-    descripcion: "Explora una audiencia y crea una plantilla o recurso pequeño que resuelva un problema observado.",
-    primerPaso: "Pregunta qué recurso necesita la audiencia antes de producirlo."
-  },
-  {
-    id: "c4", titulo: "Boletín de nicho",
-    interes: "contenido", minBudget: 0, inversion: "Baja",
-    tiempo: 90, riesgo: "medio", mercados: ["internet"],
-    habilidades: ["comunicacion","organizacion","creatividad"],
-    objetivo: ["audiencia","aprender"], dificultad: "Media",
-    descripcion: "Resume información útil para un público específico con una frecuencia sostenible.",
-    primerPaso: "Define un nicho, prepara una edición de muestra y valida si la gente quiere recibirla."
-  },
-  {
-    id: "t1", titulo: "Microherramienta web",
-    interes: "tecnologia", minBudget: 0, inversion: "Baja si se usa infraestructura gratuita",
-    tiempo: 180, riesgo: "medio", mercados: ["internet","ambos"],
-    habilidades: ["tecnologia","organizacion","creatividad"],
-    objetivo: ["producto","aprender","ingresos"], dificultad: "Media",
-    descripcion: "Construye una herramienta pequeña para una tarea frecuente y comprueba si alguien la usa.",
-    primerPaso: "Habla con tres usuarios potenciales y define una sola función principal."
-  },
-  {
-    id: "t2", titulo: "Producto digital experimental",
-    interes: "tecnologia", minBudget: 0, inversion: "Baja",
-    tiempo: 90, riesgo: "medio", mercados: ["internet"],
-    habilidades: ["diseno","tecnologia","organizacion"],
-    objetivo: ["producto","ingresos","aprender"], dificultad: "Media",
-    descripcion: "Prueba una plantilla, calculadora, guía o recurso digital antes de ampliar su alcance.",
-    primerPaso: "Crea una versión mínima y solicita comentarios de personas del público objetivo."
-  },
-  {
-    id: "t3", titulo: "Automatización para pequeños negocios",
-    interes: "tecnologia", minBudget: 0, inversion: "Baja",
-    tiempo: 180, riesgo: "medio", mercados: ["local","internet","ambos"],
-    habilidades: ["tecnologia","organizacion","comunicacion"],
-    objetivo: ["ingresos","producto","aprender"], dificultad: "Media",
-    descripcion: "Identifica una tarea repetitiva y explora cómo reducir trabajo manual con herramientas sencillas.",
-    primerPaso: "Pregunta a un negocio qué tarea repite y cuánto tiempo le consume."
-  },
-  {
-    id: "t4", titulo: "Startup de una persona",
-    interes: "tecnologia", minBudget: 500, inversion: "Variable",
-    tiempo: 180, riesgo: "alto", mercados: ["internet","ambos"],
-    habilidades: ["tecnologia","creatividad","ventas"],
-    objetivo: ["producto","ingresos"], dificultad: "Alta",
-    descripcion: "Explora un problema estrecho, crea una solución mínima y valida el uso antes de escalar.",
-    primerPaso: "Describe el problema en una frase y consigue evidencia de que alguien lo necesita."
-  }
-];
-
-/* =========================================================
-   2. UTILIDADES Y ALMACENAMIENTO
-========================================================= */
-
-function escapeHTML(valor) {
-  return String(valor ?? "").replace(/[&<>"']/g, caracter => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  }[caracter]));
-}
-
-function dinero(valor) {
-  return new Intl.NumberFormat("es-MX", {
-    style: "currency", currency: "MXN", maximumFractionDigits: 2
-  }).format(Number(valor) || 0);
-}
-
-function numero(valor) {
-  return new Intl.NumberFormat("es-MX", { maximumFractionDigits: 2 })
-    .format(Number(valor) || 0);
-}
-
-function generarId() {
-  return "p_" + Date.now().toString(36) + "_" +
-    Math.random().toString(36).slice(2, 9);
-}
-
-function fechaISO() {
-  return new Date().toISOString();
-}
-
-function fechaCorta(valor) {
-  if (!valor) return "Sin fecha";
-  const fecha = new Date(valor);
-  if (Number.isNaN(fecha.getTime())) return "Sin fecha";
-  return fecha.toLocaleDateString("es-MX", {
-    day: "numeric", month: "short", year: "numeric"
-  });
-}
-
-function notificar(mensaje) {
-  const toast = document.getElementById("toast");
-  toast.textContent = mensaje;
-  toast.classList.add("show");
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => toast.classList.remove("show"), 2800);
-}
-
-function estadoPill(estado) {
-  if (estado === "Analizado") return '<span class="pill green">Analizado</span>';
-  if (estado === "Completado") return '<span class="pill orange">Completado</span>';
-  return '<span class="pill">En curso</span>';
-}
-
-function leerJSONSeguro(texto) {
-  try {
-    return JSON.parse(texto);
-  } catch {
-    return null;
-  }
-}
-
-function normalizarProyecto(p) {
-  if (!p || typeof p !== "object") return null;
-
-  const tareas = Array.isArray(p.tareasCompletadas)
-    ? p.tareasCompletadas.map(Boolean).slice(0, 7)
-    : Array.from({ length: 7 }, (_, i) =>
-        typeof p.tareasCompletadas === "number" && i < p.tareasCompletadas
-      );
-
-  while (tareas.length < 7) tareas.push(false);
-
-  const resultado = p.resultado && typeof p.resultado === "object"
-    ? {
-        ventas: Math.max(0, Number(p.resultado.ventas) || 0),
-        clientes: Math.max(0, Number(p.resultado.clientes) || 0),
-        interacciones: Math.max(0, Number(p.resultado.interacciones) || 0),
-        ingresos: Math.max(0, Number(p.resultado.ingresos) || 0),
-        horas: Math.max(0, Number(p.resultado.horas) || 0),
-        evaluacion: ["funciono","ajustes","noFunciono"].includes(p.resultado.evaluacion)
-          ? p.resultado.evaluacion : "ajustes",
-        notas: String(p.resultado.notas || "").slice(0, 3000),
-        fecha: p.resultado.fecha || null
+    const ideas = [
+      {
+        name: "Contenido para pequeños negocios",
+        cost: 0,
+        hours: 2,
+        skills: ["creative", "tech", "learn"],
+        mode: "online",
+        type: "Servicio digital",
+        desc: "Crear publicaciones sencillas para negocios que necesitan mejorar su presencia en redes.",
+        steps: [
+          "Elige un sector, como barberías, cafeterías o tiendas.",
+          "Crea tres publicaciones de muestra con herramientas gratuitas.",
+          "Contacta a cinco negocios y pregunta qué contenido necesitan."
+        ],
+        test: "Comprueba si un negocio acepta conversar sobre una pequeña prueba pagada antes de dedicar horas a un trabajo completo."
+      },
+      {
+        name: "Reventa bajo pedido",
+        cost: 0,
+        hours: 5,
+        skills: ["sales", "organize", "learn"],
+        mode: "local",
+        type: "Comercio",
+        desc: "Investigar productos solicitados y validar compradores antes de adquirir inventario.",
+        steps: [
+          "Escoge una categoría que conozcas.",
+          "Compara precios, competencia y costes de entrega.",
+          "Pregunta a posibles compradores qué producto buscan y cuánto pagarían."
+        ],
+        test: "Valida el interés sin anunciar productos como disponibles si no puedes entregarlos ni comprometerte a cumplir el pedido."
+      },
+      {
+        name: "Asistencia virtual",
+        cost: 0,
+        hours: 2,
+        skills: ["organize", "tech", "learn"],
+        mode: "online",
+        type: "Servicio digital",
+        desc: "Ayudar a profesionales a organizar documentos, agendas u otras tareas administrativas sencillas.",
+        steps: [
+          "Elige una tarea que sepas realizar.",
+          "Prepara un ejemplo demostrativo sin información privada.",
+          "Pregunta a cinco profesionales si necesitan esa ayuda."
+        ],
+        test: "Define el alcance del trabajo y ofrece una prueba pequeña con condiciones claras."
+      },
+      {
+        name: "Diseño de currículums",
+        cost: 0,
+        hours: 2,
+        skills: ["creative", "organize", "learn"],
+        mode: "online",
+        type: "Servicio digital",
+        desc: "Crear currículums claros y personalizados con herramientas gratuitas.",
+        steps: [
+          "Diseña una plantilla sencilla.",
+          "Prepara dos ejemplos con datos ficticios.",
+          "Pide opiniones a personas que estén buscando empleo."
+        ],
+        test: "Pregunta a potenciales clientes qué les cuesta de sus currículums y qué servicio les resultaría útil."
+      },
+      {
+        name: "Guías digitales especializadas",
+        cost: 0,
+        hours: 5,
+        skills: ["creative", "tech", "learn"],
+        mode: "online",
+        type: "Producto digital",
+        desc: "Crear una guía breve que resuelva un problema concreto de un público definido.",
+        steps: [
+          "Elige un problema que conozcas.",
+          "Prepara una muestra útil de dos o tres páginas.",
+          "Pide opiniones antes de crear el producto completo."
+        ],
+        test: "Comprueba si los lectores consideran útil la guía y si existe interés real en pagar por una versión ampliada."
+      },
+      {
+        name: "Ayuda tecnológica local",
+        cost: 0,
+        hours: 2,
+        skills: ["tech", "organize", "learn"],
+        mode: "local",
+        type: "Servicio local",
+        desc: "Ayudar a personas con tareas sencillas de configuración y uso de dispositivos.",
+        steps: [
+          "Define qué tareas sabes realizar con seguridad.",
+          "Prepara una explicación clara de tu servicio.",
+          "Pregunta a conocidos qué problemas tecnológicos les gustaría resolver."
+        ],
+        test: "Comprueba si existe demanda antes de comprar herramientas o asumir gastos."
       }
-    : null;
-
-  const categoria = categorias[p.tipo] ? p.tipo : "servicios";
-  const plan = Array.isArray(p.plan) && p.plan.length
-    ? p.plan.slice(0, 7).map((t, i) => ({
-        titulo: String(t.titulo || planesBase[i].titulo).slice(0, 150),
-        descripcion: String(t.descripcion || planesBase[i].descripcion).slice(0, 500)
-      }))
-    : planesBase.map(t => ({ ...t }));
-
-  while (plan.length < 7) plan.push({ ...planesBase[plan.length] });
-
-  const estadosValidos = ["En curso","Completado","Analizado"];
-
-  return {
-    id: String(p.id || generarId()).slice(0, 100),
-    nombre: String(p.nombre || p.titulo || "Proyecto sin nombre").slice(0, 100),
-    tipo: categoria,
-    descripcion: String(p.descripcion || "").slice(0, 1200),
-    inversion: String(p.inversion || "").slice(0, 200),
-    presupuesto: Math.max(0, Number(p.presupuesto) || 0),
-    tiempo: Number(p.tiempo) || 30,
-    interes: String(p.interes || categoria),
-    riesgo: ["bajo","medio","alto"].includes(p.riesgo) ? p.riesgo : "medio",
-    mercado: ["local","internet","ambos"].includes(p.mercado) ? p.mercado : "ambos",
-    habilidades: Array.isArray(p.habilidades) ? p.habilidades.filter(h => typeof h === "string").slice(0, 20) : [],
-    objetivo: String(p.objetivo || "ingresos"),
-    compatibilidad: Math.max(0, Math.min(100, Number(p.compatibilidad) || 0)),
-    desglose: p.desglose && typeof p.desglose === "object" ? p.desglose : {},
-    razones: Array.isArray(p.razones) ? p.razones.map(x => String(x).slice(0, 250)).slice(0, 12) : [],
-    plan,
-    tareasCompletadas: tareas,
-    estado: estadosValidos.includes(p.estado) ? p.estado : "En curso",
-    fechaCreacion: p.fechaCreacion || p.fecha || fechaISO(),
-    fechaActualizacion: p.fechaActualizacion || p.fechaCreacion || p.fecha || fechaISO(),
-    fechaCompletado: p.fechaCompletado || null,
-    hipotesis: String(p.hipotesis || "").slice(0, 600),
-    metricaObjetivo: ["ventas","clientes","ingresos","interacciones"].includes(p.metricaObjetivo)
-      ? p.metricaObjetivo : "clientes",
-    meta: Math.max(1, Number(p.meta) || 3),
-    variable: String(p.variable || "oferta").slice(0, 100),
-    oferta: String(p.oferta || "").slice(0, 500),
-    canal: String(p.canal || "").slice(0, 200),
-    precio: p.precio === "" || p.precio == null ? null : Math.max(0, Number(p.precio) || 0),
-    resultado,
-    analisis: p.analisis && typeof p.analisis === "object" ? p.analisis : null
-  };
-}
-
-function cargarProyectos() {
-  let actual = leerJSONSeguro(localStorage.getItem(STORAGE_KEY));
-  if (Array.isArray(actual)) return actual.map(normalizarProyecto).filter(Boolean);
-
-  const anterior = leerJSONSeguro(localStorage.getItem(OLD_STORAGE_KEY));
-  if (Array.isArray(anterior)) {
-    const migrados = anterior.map(normalizarProyecto).filter(Boolean);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(migrados));
-    } catch (error) {
-      console.warn("No se pudo migrar automáticamente el almacenamiento.", error);
-    }
-    return migrados;
-  }
-  return [];
-}
-
-let proyectos = cargarProyectos();
-
-function guardarTodo() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(proyectos));
-    return true;
-  } catch (error) {
-    console.error(error);
-    notificar("No se pudieron guardar los cambios. Exporta un respaldo y revisa el espacio del navegador.");
-    return false;
-  }
-}
-
-function obtenerProyecto(id) {
-  return proyectos.find(p => p.id === id) || null;
-}
-
-function contarTareas(p) {
-  return p.tareasCompletadas.filter(Boolean).length;
-}
-
-function porcentajeProyecto(p) {
-  return Math.round(contarTareas(p) / Math.max(1, p.plan.length) * 100);
-}
-
-function etiquetaMetrica(metrica) {
-  return ({
-    ventas: "ventas",
-    clientes: "clientes interesados",
-    ingresos: "MXN de ingresos",
-    interacciones: "interacciones"
-  })[metrica] || metrica;
-}
-
-function valorMetrica(resultado, metrica) {
-  if (!resultado) return 0;
-  return Number(resultado[metrica]) || 0;
-}
-
-/* =========================================================
-   3. NAVEGACIÓN
-========================================================= */
-
-function irA(id) {
-  const destino = document.getElementById(id);
-  if (!destino) return;
-
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  destino.classList.add("active");
-
-  document.querySelectorAll("[data-nav]").forEach(b => {
-    b.classList.toggle("active", b.dataset.nav === id);
-  });
-
-  if (id === "inicio") actualizarDashboard();
-  if (id === "misProyectos") {
-    mostrarMisProyectos();
-    mostrarHistorialAprendizajes();
-  }
-  if (id === "biblioteca") mostrarBiblioteca();
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function iniciarNuevoProyecto() {
-  perfilActual = null;
-  recomendacionesActuales = [];
-  ideaSeleccionada = null;
-
-  document.getElementById("perfilForm").reset();
-  document.getElementById("proyectoForm").reset();
-
-  document.getElementById("presupuesto").value = "0";
-  document.getElementById("tiempo").value = "30";
-  document.getElementById("interes").value = "productos";
-  document.getElementById("riesgo").value = "bajo";
-  document.getElementById("mercado").value = "ambos";
-  document.getElementById("objetivo").value = "ingresos";
-  document.getElementById("experiencia").value = "principiante";
-
-  irA("cuestionario");
-}
-
-function leerPerfil() {
-  return {
-    presupuesto: Number(document.getElementById("presupuesto").value),
-    tiempo: Number(document.getElementById("tiempo").value),
-    interes: document.getElementById("interes").value,
-    riesgo: document.getElementById("riesgo").value,
-    habilidades: [...document.querySelectorAll('input[name="habilidades"]:checked')]
-      .map(el => el.value),
-    mercado: document.getElementById("mercado").value,
-    objetivo: document.getElementById("objetivo").value,
-    experiencia: document.getElementById("experiencia").value
-  };
-}
-
-/* =========================================================
-   4. MOTOR DE RECOMENDACIÓN
-========================================================= */
-
-function calcularCompatibilidad(idea, perfil) {
-  let score = 0;
-  const desglose = {};
-  const razones = [];
-  const historial = proyectos.filter(p => p.tipo === idea.interes && p.resultado);
-
-  function sumar(clave, puntos, maximo, razon) {
-    desglose[clave] = { puntos, maximo };
-    score += puntos;
-    if (razon) razones.push(razon);
-  }
-
-  if (idea.interes === perfil.interes) {
-    sumar("Interés", 5, 5, "Coincide con el tipo de proyecto que quieres explorar.");
-  } else {
-    sumar("Interés", 0, 5, "");
-  }
-
-  if (perfil.presupuesto >= idea.minBudget) {
-    sumar("Presupuesto", 5, 5, "El presupuesto declarado alcanza el mínimo orientativo de esta idea.");
-  } else if (idea.minBudget === 0) {
-    sumar("Presupuesto", 5, 5, "Se puede explorar una versión inicial sin inversión obligatoria.");
-  } else {
-    sumar("Presupuesto", 1, 5, "El presupuesto actual podría limitar esta idea; valida antes de gastar.");
-  }
-
-  const distanciaTiempo = Math.abs(idea.tiempo - perfil.tiempo);
-  const puntosTiempo = distanciaTiempo === 0 ? 4 : distanciaTiempo <= 60 ? 3 : distanciaTiempo <= 90 ? 2 : 1;
-  sumar("Tiempo", puntosTiempo, 4,
-    puntosTiempo >= 3 ? "La dedicación sugerida es compatible con tu disponibilidad aproximada." : "");
-
-  const nivelesRiesgo = { bajo: 0, medio: 1, alto: 2 };
-  const distanciaRiesgo = Math.abs(nivelesRiesgo[idea.riesgo] - nivelesRiesgo[perfil.riesgo]);
-  const puntosRiesgo = distanciaRiesgo === 0 ? 4 : 2;
-  sumar("Riesgo", puntosRiesgo, 4,
-    puntosRiesgo === 4 ? "El perfil de riesgo coincide con tu preferencia." : "");
-
-  const mercadoCoincide = idea.mercados.includes(perfil.mercado) ||
-    perfil.mercado === "ambos";
-  sumar("Mercado", mercadoCoincide ? 4 : 1, 4,
-    mercadoCoincide ? "Puedes explorarla en el mercado que prefieres." : "");
-
-  const habilidadesCoinciden = idea.habilidades.filter(h => perfil.habilidades.includes(h));
-  const puntosHabilidades = Math.min(6, habilidadesCoinciden.length * 2);
-  sumar("Habilidades", puntosHabilidades, 6,
-    habilidadesCoinciden.length
-      ? "Aprovecha estas habilidades: " + habilidadesCoinciden.join(", ") + "."
-      : "");
-
-  const objetivoCoincide = idea.objetivo.includes(perfil.objetivo);
-  sumar("Objetivo", objetivoCoincide ? 6 : 1, 6,
-    objetivoCoincide ? "Esta idea puede alinearse con tu objetivo principal." : "");
-
-  const intentosMismaIdea = proyectos.filter(p =>
-    p.tipo === idea.interes && p.nombre.toLowerCase() === idea.titulo.toLowerCase()
-  ).length;
-
-  let puntosHistorial = 0;
-  if (historial.some(p => p.resultado.evaluacion === "funciono")) puntosHistorial += 2;
-  if (historial.some(p => p.resultado.evaluacion === "noFunciono")) puntosHistorial -= 1;
-  if (intentosMismaIdea > 0) puntosHistorial -= 2;
-
-  sumar("Historial", puntosHistorial, 2,
-    historial.length ? "Se ha considerado tu historial de experimentos de esta categoría." :
-    "Aún no hay resultados de esta categoría en tu historial.");
-
-  const maximo = 5 + 5 + 4 + 4 + 4 + 6 + 6 + 2;
-  const porcentaje = Math.max(0, Math.min(100, Math.round((score / maximo) * 100)));
-
-  return { score, maximo, porcentaje, desglose, razones };
-}
-
-function generarRecomendaciones() {
-  if (!perfilActual) return;
-
-  recomendacionesActuales = ideas.map(idea => ({
-    idea,
-    ...calcularCompatibilidad(idea, perfilActual)
-  })).sort((a, b) => b.porcentaje - a.porcentaje);
-
-  document.getElementById("resumenPerfil").textContent =
-    `Presupuesto: ${dinero(perfilActual.presupuesto)} · ` +
-    `${perfilActual.tiempo < 60 ? "30 minutos al día" : perfilActual.tiempo < 180 ? "1–2 horas al día" : "3+ horas al día"} · ` +
-    `Objetivo: ${perfilActual.objetivo}.`;
-
-  document.getElementById("listaRecomendaciones").innerHTML =
-    recomendacionesActuales.slice(0, 6).map((r, index) => tarjetaIdea(r, index)).join("");
-
-  irA("resultados");
-}
-
-function tarjetaIdea(r, index) {
-  const idea = r.idea;
-  return `
-    <article class="card">
-      <div class="card-top">
-        <div class="card-icon">${categorias[idea.interes].icono}</div>
-        <span class="pill">${r.porcentaje}% compatible</span>
-      </div>
-      <h3>${escapeHTML(idea.titulo)}</h3>
-      <p>${escapeHTML(idea.descripcion)}</p>
-      <div class="card-meta">
-        <span class="pill gray">${escapeHTML(categorias[idea.interes].nombre)}</span>
-        <span class="pill gray">Riesgo ${escapeHTML(idea.riesgo)}</span>
-        <span class="pill gray">${escapeHTML(idea.dificultad)}</span>
-      </div>
-      <div class="progress-track"><div class="progress-fill" style="width:${r.porcentaje}%"></div></div>
-      <p><strong>Primer paso:</strong> ${escapeHTML(idea.primerPaso)}</p>
-      <details>
-        <summary style="cursor:pointer;font-size:12px;font-weight:800">Cómo llegamos a esta recomendación</summary>
-        <div class="breakdown">
-          ${Object.entries(r.desglose).map(([nombre, d]) => {
-            const ancho = Math.max(0, Math.min(100, d.maximo ? d.puntos / d.maximo * 100 : 0));
-            return `<div class="breakdown-row">
-              <span>${escapeHTML(nombre)}</span>
-              <div class="progress-track"><div class="progress-fill" style="width:${ancho}%"></div></div>
-              <strong>${d.puntos}/${d.maximo}</strong>
-            </div>`;
-          }).join("")}
-        </div>
-        <div class="reason-list">${r.razones.map(x => `<div class="reason">${escapeHTML(x)}</div>`).join("")}</div>
-      </details>
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="elegirIdea('${idea.id}')">Probar esta idea</button>
-      </div>
-    </article>`;
-}
-
-function elegirIdea(id) {
-  const resultado = recomendacionesActuales.find(r => r.idea.id === id);
-  if (!resultado) {
-    notificar("No se encontró esa recomendación.");
-    return;
-  }
-
-  ideaSeleccionada = resultado;
-  document.getElementById("proyectoForm").reset();
-  document.getElementById("nombreProyecto").value = resultado.idea.titulo;
-  document.getElementById("meta").value =
-    perfilActual && perfilActual.objetivo === "ingresos" ? 1 : 3;
-
-  document.getElementById("ideaElegida").innerHTML = `
-    <strong>${escapeHTML(resultado.idea.titulo)}</strong>
-    <div style="margin-top:6px">${escapeHTML(resultado.idea.descripcion)}</div>
-    <div class="card-meta">
-      <span class="pill">${resultado.porcentaje}% de compatibilidad</span>
-      <span class="pill gray">${escapeHTML(resultado.idea.inversion)}</span>
-    </div>
-    <small>Esta puntuación ordena ideas según tu perfil; no predice el resultado comercial.</small>`;
-
-  irA("crearProyecto");
-}
-
-/* =========================================================
-   5. CREAR Y MOSTRAR PROYECTO
-========================================================= */
-
-function crearProyectoDesdeIdea() {
-  if (!ideaSeleccionada || !perfilActual) {
-    notificar("Primero selecciona una idea y completa el perfil.");
-    return;
-  }
-
-  const r = ideaSeleccionada;
-  const nombre = document.getElementById("nombreProyecto").value.trim();
-  const hipotesis = document.getElementById("hipotesis").value.trim();
-  const meta = Number(document.getElementById("meta").value);
-
-  if (!nombre || !hipotesis || !Number.isFinite(meta) || meta < 1) {
-    notificar("Completa el nombre, la hipótesis y una meta válida.");
-    return;
-  }
-
-  const proyecto = normalizarProyecto({
-    id: generarId(),
-    nombre,
-    tipo: r.idea.interes,
-    descripcion: r.idea.descripcion,
-    inversion: r.idea.inversion,
-    presupuesto: perfilActual.presupuesto,
-    tiempo: perfilActual.tiempo,
-    interes: perfilActual.interes,
-    riesgo: perfilActual.riesgo,
-    mercado: perfilActual.mercado,
-    habilidades: perfilActual.habilidades,
-    objetivo: perfilActual.objetivo,
-    compatibilidad: r.porcentaje,
-    desglose: r.desglose,
-    razones: r.razones,
-    plan: planesBase,
-    tareasCompletadas: Array(7).fill(false),
-    estado: "En curso",
-    fechaCreacion: fechaISO(),
-    fechaActualizacion: fechaISO(),
-    hipotesis,
-    metricaObjetivo: document.getElementById("metricaObjetivo").value,
-    meta,
-    variable: document.getElementById("variable").value,
-    oferta: document.getElementById("oferta").value.trim(),
-    canal: document.getElementById("canal").value.trim(),
-    precio: document.getElementById("precio").value === ""
-      ? null : Number(document.getElementById("precio").value),
-    resultado: null,
-    analisis: null
-  });
-
-  proyectos.unshift(proyecto);
-  proyectoActualId = proyecto.id;
-
-  if (guardarTodo()) {
-    notificar("Experimento creado. ¡Ahora toca ejecutarlo!");
-    mostrarProyecto(proyecto.id);
-    irA("planProyecto");
-  }
-}
-
-function abrirProyecto(id) {
-  const proyecto = obtenerProyecto(id);
-  if (!proyecto) {
-    notificar("No se encontró el proyecto.");
-    return;
-  }
-  proyectoActualId = id;
-
-  if (proyecto.resultado && proyecto.analisis) {
-    mostrarAnalisis(id);
-    irA("analisisProyecto");
-  } else {
-    mostrarProyecto(id);
-    irA("planProyecto");
-  }
-}
-
-function abrirProyectoActual() {
-  if (proyectoActualId) abrirProyecto(proyectoActualId);
-  else irA("misProyectos");
-}
-
-function mostrarProyecto(id) {
-  const p = obtenerProyecto(id);
-  if (!p) return;
-  proyectoActualId = id;
-
-  const completadas = contarTareas(p);
-  const progreso = porcentajeProyecto(p);
-  const categoria = categorias[p.tipo] || categorias.servicios;
-
-  document.getElementById("detalleProyecto").innerHTML = `
-    <div class="section-heading">
-      <div>
-        <span class="pill">${categoria.icono} ${escapeHTML(categoria.nombre)}</span>
-        <h2 class="page-title" style="margin-top:10px">${escapeHTML(p.nombre)}</h2>
-        <p class="subtext">Creado ${fechaCorta(p.fechaCreacion)} · Actualizado ${fechaCorta(p.fechaActualizacion)}</p>
-      </div>
-      <div class="hero-actions">
-        ${estadoPill(p.estado)}
-        <button class="btn btn-outline" onclick="irA('misProyectos')">Mis proyectos</button>
-      </div>
-    </div>
-
-    <div class="layout-two">
-      <div class="panel">
-        <h3>Tu hipótesis</h3>
-        <p>${escapeHTML(p.hipotesis || "No registraste una hipótesis.")}</p>
-        <hr>
-        <h3>La prueba que diseñaste</h3>
-        <p><strong>Oferta:</strong> ${escapeHTML(p.oferta || p.descripcion || "Sin especificar")}</p>
-        <p><strong>Variable a probar:</strong> ${escapeHTML(p.variable)}</p>
-        <p><strong>Canal:</strong> ${escapeHTML(p.canal || "Por definir")}</p>
-        <p><strong>Meta:</strong> ${escapeHTML(etiquetaMetrica(p.metricaObjetivo))} = ${numero(p.meta)}</p>
-        <p><strong>Presupuesto inicial declarado:</strong> ${dinero(p.presupuesto)}</p>
-        <p><strong>Precio previsto:</strong> ${p.precio == null ? "No definido" : dinero(p.precio)}</p>
-      </div>
-      <div class="panel">
-        <h3>Progreso del experimento</h3>
-        <div class="metric-grid">
-          <div class="metric"><small>Tareas</small><strong>${completadas}/7</strong></div>
-          <div class="metric"><small>Progreso</small><strong>${progreso}%</strong></div>
-        </div>
-        <div class="progress-track"><div class="progress-fill" style="width:${progreso}%"></div></div>
-        <p>Marca una tarea cuando la hayas realizado. El progreso mide acciones completadas, no el éxito comercial.</p>
-        ${completadas === 7 && !p.resultado
-          ? `<button class="btn btn-primary btn-full" onclick="abrirResultado('${p.id}')">Registrar resultados →</button>`
-          : p.resultado
-            ? `<button class="btn btn-primary btn-full" onclick="mostrarAnalisis('${p.id}');irA('analisisProyecto')">Ver análisis →</button>`
-            : `<p class="muted">Completa las siete tareas para cerrar la prueba.</p>`}
-      </div>
-    </div>
-
-    <div class="section-heading">
-      <div><h2>Plan de siete días</h2><p>Hazlo pequeño, concreto y comprobable.</p></div>
-      <span class="pill">${completadas} de 7 tareas</span>
-    </div>
-
-    <div class="panel">
-      ${p.plan.map((t, i) => `
-        <label class="task ${p.tareasCompletadas[i] ? "done" : ""}">
-          <input type="checkbox" ${p.tareasCompletadas[i] ? "checked" : ""}
-            onchange="completarTarea('${p.id}',${i},this.checked)">
-          <span>
-            <span class="task-day">Día ${i + 1}</span>
-            <strong>${escapeHTML(t.titulo)}</strong>
-            <p>${escapeHTML(t.descripcion)}</p>
-          </span>
-        </label>`).join("")}
-    </div>
-
-    <div class="hero-actions">
-      ${completadas === 7 && !p.resultado
-        ? `<button class="btn btn-primary" onclick="abrirResultado('${p.id}')">Registrar resultado del experimento</button>`
-        : ""}
-      <button class="btn btn-outline" onclick="duplicarProyecto('${p.id}')">Crear siguiente prueba a partir de este proyecto</button>
-      <button class="btn btn-danger" onclick="eliminarProyecto('${p.id}')">Eliminar proyecto</button>
-    </div>
-  `;
-}
-
-function completarTarea(id, indice, marcada) {
-  const p = obtenerProyecto(id);
-  if (!p) return;
-
-  p.tareasCompletadas[indice] = Boolean(marcada);
-  p.fechaActualizacion = fechaISO();
-
-  const todas = p.tareasCompletadas.every(Boolean);
-  if (todas && p.estado === "En curso") {
-    p.estado = "Completado";
-    p.fechaCompletado = fechaISO();
-  } else if (!todas && p.estado === "Completado" && !p.resultado) {
-    p.estado = "En curso";
-    p.fechaCompletado = null;
-  }
-
-  guardarTodo();
-  mostrarProyecto(id);
-  actualizarDashboard();
-}
-
-/* =========================================================
-   6. RESULTADOS Y ANÁLISIS
-========================================================= */
-
-function abrirResultado(id) {
-  const p = obtenerProyecto(id);
-  if (!p) return;
-
-  proyectoActualId = id;
-  document.getElementById("resultadoNombre").innerHTML =
-    `<strong>${escapeHTML(p.nombre)}</strong><p>${escapeHTML(p.hipotesis)}</p>`;
-  document.getElementById("metaResumen").textContent =
-    `${numero(p.meta)} ${etiquetaMetrica(p.metricaObjetivo)}`;
-  document.getElementById("presupuestoResumen").textContent = dinero(p.presupuesto);
-
-  const r = p.resultado || {};
-  document.getElementById("resVentas").value = r.ventas ?? 0;
-  document.getElementById("resClientes").value = r.clientes ?? 0;
-  document.getElementById("resInteracciones").value = r.interacciones ?? 0;
-  document.getElementById("resIngresos").value = r.ingresos ?? 0;
-  document.getElementById("resHoras").value = r.horas ?? 0;
-  document.getElementById("evaluacion").value = r.evaluacion || "ajustes";
-  document.getElementById("resNotas").value = r.notas || "";
-
-  irA("resultadoExperimento");
-}
-
-function guardarResultadoDesdeFormulario() {
-  const p = obtenerProyecto(proyectoActualId);
-  if (!p) {
-    notificar("No se encontró el proyecto.");
-    return;
-  }
-
-  const campos = [
-    ["ventas","resVentas"], ["clientes","resClientes"],
-    ["interacciones","resInteracciones"], ["ingresos","resIngresos"],
-    ["horas","resHoras"]
-  ];
-
-  const resultado = {};
-  for (const [clave, id] of campos) {
-    const valor = Number(document.getElementById(id).value);
-    if (!Number.isFinite(valor) || valor < 0) {
-      notificar("Revisa las métricas: deben ser números iguales o mayores a cero.");
-      return;
-    }
-    resultado[clave] = valor;
-  }
-
-  resultado.evaluacion = document.getElementById("evaluacion").value;
-  resultado.notas = document.getElementById("resNotas").value.trim().slice(0,3000);
-  resultado.fecha = fechaISO();
-
-  p.resultado = resultado;
-  p.estado = "Analizado";
-  p.fechaActualizacion = fechaISO();
-  p.analisis = calcularAnalisis(p);
-
-  guardarTodo();
-  mostrarAnalisis(p.id);
-  irA("analisisProyecto");
-  notificar("Resultados guardados y análisis actualizado.");
-}
-
-function calcularAnalisis(p) {
-  const r = p.resultado;
-  const valorObjetivo = valorMetrica(r, p.metricaObjetivo);
-  const metaAlcanzada = valorObjetivo >= p.meta;
-  const conversion = r.interacciones > 0
-    ? Math.round((r.clientes / r.interacciones) * 1000) / 10
-    : null;
-  const ingresoHora = r.horas > 0
-    ? Math.round((r.ingresos / r.horas) * 100) / 100
-    : null;
-
-  let traccion;
-  if (r.ventas > 0 || r.ingresos > 0) {
-    traccion = "Registraste ventas o ingresos. Revisa también costos, devoluciones y tiempo antes de concluir que el proyecto es rentable.";
-  } else if (r.clientes > 0) {
-    traccion = "Registraste personas interesadas, pero no ventas. Conviene investigar qué impidió la conversión.";
-  } else if (r.interacciones > 0) {
-    traccion = "Hubo actividad, pero no registraste contactos ni ventas. Revisa si el mensaje llegó al público correcto y si la llamada a la acción era clara.";
-  } else {
-    traccion = "No registraste actividad en las métricas introducidas. Antes de descartar la idea, revisa si se ejecutó la prueba y si el canal alcanzó al público objetivo.";
-  }
-
-  let siguientePaso;
-  if (r.evaluacion === "funciono") {
-    siguientePaso = "Repite la prueba con un grupo nuevo y comprueba si la señal se mantiene. Antes de invertir más, calcula costos, margen y capacidad de entrega.";
-  } else if (r.evaluacion === "ajustes") {
-    siguientePaso = "Mantén la categoría y cambia una sola variable —por ejemplo, oferta, precio o canal— para identificar qué influye en la respuesta.";
-  } else {
-    siguientePaso = "Revisa si el problema fue la demanda, el mensaje, el canal o la ejecución. Diseña una prueba más pequeña o explora una categoría diferente.";
-  }
-
-  let aprendizaje;
-  if (metaAlcanzada) {
-    aprendizaje = "Alcanzaste la meta numérica que definiste. Esto es una señal útil, aunque una sola prueba no demuestra que el resultado vaya a repetirse.";
-  } else {
-    aprendizaje = "No alcanzaste la meta numérica definida. El resultado sigue siendo útil si permite identificar qué cambiar en la siguiente prueba.";
-  }
-
-  return {
-    conversion,
-    ingresoHora,
-    traccion,
-    siguientePaso,
-    aprendizaje,
-    metaAlcanzada,
-    valorObjetivo,
-    fecha: fechaISO()
-  };
-}
-
-function mostrarAnalisis(id) {
-  const p = obtenerProyecto(id);
-  if (!p || !p.resultado) return;
-
-  if (!p.analisis) p.analisis = calcularAnalisis(p);
-  proyectoActualId = id;
-
-  const r = p.resultado;
-  const a = p.analisis;
-  const evaluacionTexto = ({
-    funciono: "Funcionó según tu evaluación",
-    ajustes: "Necesita ajustes según tu evaluación",
-    noFunciono: "No funcionó como esperabas"
-  })[r.evaluacion];
-
-  document.getElementById("contenidoAnalisis").innerHTML = `
-    <div class="section-heading">
-      <div>
-        <span class="pill green">Experimento analizado</span>
-        <h2 class="page-title" style="margin-top:10px">${escapeHTML(p.nombre)}</h2>
-        <p class="subtext">Resultados guardados el ${fechaCorta(r.fecha)}.</p>
-      </div>
-      <button class="btn btn-outline" onclick="irA('misProyectos')">Volver a proyectos</button>
-    </div>
-
-    <div class="panel">
-      <h3>Lo que registraste</h3>
-      <div class="metric-grid">
-        <div class="metric"><small>Ventas</small><strong>${numero(r.ventas)}</strong></div>
-        <div class="metric"><small>Contactos interesados</small><strong>${numero(r.clientes)}</strong></div>
-        <div class="metric"><small>Interacciones</small><strong>${numero(r.interacciones)}</strong></div>
-        <div class="metric"><small>Ingresos registrados</small><strong>${dinero(r.ingresos)}</strong></div>
-        <div class="metric"><small>Horas invertidas</small><strong>${numero(r.horas)}</strong></div>
-        <div class="metric"><small>Ingresos por hora</small><strong>${a.ingresoHora == null ? "—" : dinero(a.ingresoHora)}</strong></div>
-      </div>
-      <p class="muted" style="font-size:12px">Los ingresos por hora son ingresos brutos registrados divididos entre horas. No equivalen a utilidad ni descuentan costos, impuestos u otros gastos.</p>
-    </div>
-
-    <div class="layout-two">
-      <div class="panel">
-        <h3>¿Alcanzaste la meta?</h3>
-        <div class="metric-grid">
-          <div class="metric"><small>Meta definida</small><strong>${numero(p.meta)}</strong></div>
-          <div class="metric"><small>Resultado</small><strong>${numero(a.valorObjetivo)}</strong></div>
-        </div>
-        <span class="pill ${a.metaAlcanzada ? "green" : "orange"}">${a.metaAlcanzada ? "Meta numérica alcanzada" : "Meta numérica no alcanzada"}</span>
-        <p>${escapeHTML(a.aprendizaje)}</p>
-        <p><strong>Tu evaluación:</strong> ${escapeHTML(evaluacionTexto)}</p>
-        ${a.conversion == null
-          ? `<p class="muted">No calculamos una tasa de contacto porque no registraste interacciones.</p>`
-          : `<p><strong>Contactos / interacciones:</strong> ${numero(a.conversion)}%</p>
-             <p class="muted">Es una relación entre los números registrados, no necesariamente una tasa de conversión de ventas.</p>`}
-      </div>
-      <div class="panel">
-        <h3>Lectura de actividad</h3>
-        <p>${escapeHTML(a.traccion)}</p>
-        <hr>
-        <h3>Qué probar después</h3>
-        <p>${escapeHTML(a.siguientePaso)}</p>
-      </div>
-    </div>
-
-    <div class="panel" style="margin-top:17px">
-      <h3>Tu diario de aprendizaje</h3>
-      <p><strong>Hipótesis inicial:</strong> ${escapeHTML(p.hipotesis)}</p>
-      <p><strong>Variable probada:</strong> ${escapeHTML(p.variable)}</p>
-      <p><strong>Notas del experimento:</strong></p>
-      <p>${escapeHTML(r.notas || "No añadiste notas para esta prueba.")}</p>
-    </div>
-
-    <div class="hero-actions">
-      <button class="btn btn-primary" onclick="duplicarProyecto('${p.id}')">Diseñar el siguiente experimento →</button>
-      <button class="btn btn-outline" onclick="abrirResultado('${p.id}')">Editar resultados</button>
-      <button class="btn btn-outline" onclick="exportarDatos()">Respaldar mis datos</button>
-    </div>
-  `;
-}
-
-/* =========================================================
-   7. SIGUIENTE EXPERIMENTO ADAPTATIVO
-========================================================= */
-
-function duplicarProyecto(id) {
-  const original = obtenerProyecto(id);
-  if (!original) return;
-
-  const perfil = {
-    presupuesto: original.presupuesto,
-    tiempo: original.tiempo,
-    interes: original.interes,
-    riesgo: original.riesgo,
-    habilidades: [...original.habilidades],
-    mercado: original.mercado,
-    objetivo: original.objetivo,
-    experiencia: "algo"
-  };
-
-  perfilActual = perfil;
-  ideaSeleccionada = {
-    idea: ideas.find(i => i.interes === original.tipo) || ideas[0],
-    porcentaje: original.compatibilidad,
-    desglose: original.desglose,
-    razones: original.razones
-  };
-
-  document.getElementById("proyectoForm").reset();
-  document.getElementById("nombreProyecto").value = original.nombre + " — nueva prueba";
-  document.getElementById("hipotesis").value = "";
-  document.getElementById("meta").value = String(original.meta);
-  document.getElementById("metricaObjetivo").value = original.metricaObjetivo;
-  document.getElementById("variable").value = original.variable;
-  document.getElementById("oferta").value = original.oferta;
-  document.getElementById("canal").value = original.canal;
-  document.getElementById("precio").value = original.precio == null ? "" : original.precio;
-
-  document.getElementById("ideaElegida").innerHTML = `
-    <strong>Nueva prueba basada en: ${escapeHTML(original.nombre)}</strong>
-    <p>Tu historial sugiere explorar la misma categoría, pero elige una hipótesis nueva y modifica una variable. Puedes cambiar cualquier campo antes de crearla.</p>
-  `;
-
-  irA("crearProyecto");
-}
-
-/* =========================================================
-   8. DASHBOARD Y APRENDIZAJES
-========================================================= */
-
-function actualizarDashboard() {
-  const total = proyectos.length;
-  const activos = proyectos.filter(p => p.estado === "En curso").length;
-  const analizados = proyectos.filter(p => Boolean(p.resultado)).length;
-  const ingresos = proyectos.reduce((sum, p) => sum + (p.resultado?.ingresos || 0), 0);
-  const ventas = proyectos.reduce((sum, p) => sum + (p.resultado?.ventas || 0), 0);
-  const horas = proyectos.reduce((sum, p) => sum + (p.resultado?.horas || 0), 0);
-  const tareas = proyectos.reduce((sum, p) => sum + contarTareas(p), 0);
-  const tareasPosibles = proyectos.length * 7;
-  const tasaTareas = tareasPosibles ? Math.round(tareas / tareasPosibles * 100) : 0;
-
-  const stats = [
-    ["Proyectos", total, "Total guardado"],
-    ["En curso", activos, "Pendientes de ejecutar"],
-    ["Analizados", analizados, "Con resultados registrados"],
-    ["Ingresos", dinero(ingresos), "Importe bruto registrado"],
-    ["Ventas", numero(ventas), "Ventas declaradas"],
-    ["Horas", numero(horas), "Tiempo registrado"],
-    ["Tareas", `${tareas}/${tareasPosibles}`, `${tasaTareas}% de tareas completadas`],
-    ["Aprendizajes", proyectos.filter(p => p.resultado?.notas).length, "Experimentos con notas"]
-  ];
-
-  document.getElementById("dashboardStats").innerHTML = stats.map(s => `
-    <div class="stat">
-      <div class="stat-label">${escapeHTML(s[0])}</div>
-      <div class="stat-value">${escapeHTML(s[1])}</div>
-      <div class="stat-foot">${escapeHTML(s[2])}</div>
-    </div>`).join("");
-
-  const recientes = proyectos.slice(0, 4);
-  document.getElementById("proyectosRecientes").innerHTML = recientes.length
-    ? recientes.map(p => `
-      <div class="quick-item">
-        <div style="min-width:0">
-          <strong>${escapeHTML(p.nombre)}</strong>
-          <small>${escapeHTML(categorias[p.tipo].nombre)} · ${porcentajeProyecto(p)}% de tareas</small>
-        </div>
-        <button class="btn btn-outline btn-small" onclick="abrirProyecto('${p.id}')">${p.resultado ? "Ver" : "Abrir"}</button>
-      </div>`).join("")
-    : `<div class="empty"><strong>Aún no hay proyectos</strong>Crea tu primer experimento para empezar a construir tu historial.<br><br><button class="btn btn-primary" onclick="iniciarNuevoProyecto()">Comenzar</button></div>`;
-
-  const conResultado = proyectos.filter(p => p.resultado);
-  const aprendizajes = conResultado.length
-    ? `<div class="metric-grid">
-        <div class="metric"><small>Pruebas registradas</small><strong>${conResultado.length}</strong></div>
-        <div class="metric"><small>Personas interesadas</small><strong>${numero(conResultado.reduce((s,p)=>s+p.resultado.clientes,0))}</strong></div>
-      </div>
-      <p>${escapeHTML(resumenHistorial(conResultado))}</p>
-      <button class="btn btn-outline btn-full" onclick="irA('misProyectos')">Ver historial completo</button>`
-    : `<div class="empty"><strong>Tu historial comienza aquí</strong>Cuando registres resultados, aparecerán patrones y aprendizajes.</div>`;
-
-  document.getElementById("aprendizajesDashboard").innerHTML = aprendizajes;
-
-  const pendiente = proyectos.find(p => p.estado === "En curso" && !p.resultado);
-  document.getElementById("proximaAccion").innerHTML = pendiente
-    ? `<div class="panel">
-        <span class="pill">Siguiente paso recomendado</span>
-        <h3 style="margin-top:12px">${escapeHTML(pendiente.nombre)}</h3>
-        <p>${escapeHTML(pendiente.plan.find((t,i)=>!pendiente.tareasCompletadas[i])?.titulo || "Revisar el experimento")}</p>
-        <button class="btn btn-primary" onclick="abrirProyecto('${pendiente.id}')">Continuar experimento →</button>
-      </div>`
-    : `<div class="panel">
-        <h3>Diseña una prueba pequeña</h3>
-        <p>Elige una oportunidad, define una meta realista y registra lo que ocurra.</p>
-        <button class="btn btn-primary" onclick="iniciarNuevoProyecto()">Crear experimento →</button>
-      </div>`;
-}
-
-function resumenHistorial(lista) {
-  if (!lista.length) return "Todavía no hay resultados.";
-  const exitos = lista.filter(p => p.resultado.evaluacion === "funciono").length;
-  const ajustes = lista.filter(p => p.resultado.evaluacion === "ajustes").length;
-  const cambios = lista.filter(p => p.resultado.evaluacion === "noFunciono").length;
-  return `Según tu propia evaluación: ${exitos} prueba(s) que consideraste útiles, ${ajustes} que requieren ajustes y ${cambios} que no funcionaron como esperabas. Son etiquetas personales, no una evaluación independiente del mercado.`;
-}
-
-function mostrarHistorialAprendizajes() {
-  const conResultado = proyectos.filter(p => p.resultado);
-  const categoriasProbadas = [...new Set(conResultado.map(p => p.tipo))];
-
-  const porCategoria = Object.keys(categorias).map(tipo => {
-    const lista = conResultado.filter(p => p.tipo === tipo);
-    const ingresos = lista.reduce((s,p) => s + p.resultado.ingresos, 0);
-    return { tipo, cantidad: lista.length, ingresos };
-  }).filter(x => x.cantidad);
-
-  const ultimos = conResultado.slice(0, 5);
-
-  document.getElementById("historialAprendizajes").innerHTML = `
-    <div class="panel">
-      <h3>Tu recorrido experimental</h3>
-      <div class="metric-grid">
-        <div class="metric"><small>Pruebas registradas</small><strong>${conResultado.length}</strong></div>
-        <div class="metric"><small>Categorías probadas</small><strong>${categoriasProbadas.length}</strong></div>
-        <div class="metric"><small>Ingresos registrados</small><strong>${dinero(conResultado.reduce((s,p)=>s+p.resultado.ingresos,0))}</strong></div>
-      </div>
-      ${porCategoria.length ? porCategoria.map(x => `
-        <div style="padding:10px 0;border-bottom:1px solid var(--line)">
-          <strong>${escapeHTML(categorias[x.tipo].nombre)}</strong>
-          <p class="muted" style="margin:3px 0;font-size:12px">${x.cantidad} prueba(s) · ${dinero(x.ingresos)} de ingresos registrados</p>
-        </div>`).join("") : `<p class="muted">Registra tu primera prueba para empezar a comparar.</p>`}
-    </div>
-    <div class="panel">
-      <h3>Notas recientes</h3>
-      ${ultimos.filter(p => p.resultado.notas).length
-        ? ultimos.filter(p => p.resultado.notas).map(p => `
-          <div style="padding:12px 0;border-bottom:1px solid var(--line)">
-            <strong>${escapeHTML(p.nombre)}</strong>
-            <p>${escapeHTML(p.resultado.notas)}</p>
-            <small class="muted">${fechaCorta(p.resultado.fecha)}</small>
-          </div>`).join("")
-        : `<p class="muted">Aún no has escrito aprendizajes. Las notas de tus experimentos aparecerán aquí.</p>`}
-    </div>`;
-}
-
-/* =========================================================
-   9. LISTADO, FILTROS Y BIBLIOTECA
-========================================================= */
-
-function mostrarMisProyectos() {
-  const contenedor = document.getElementById("listaProyectos");
-  if (!contenedor) return;
-
-  const busqueda = (document.getElementById("buscarProyecto")?.value || "").trim().toLowerCase();
-  const filtro = document.getElementById("filtroEstado")?.value || "todos";
-
-  const lista = proyectos.filter(p => {
-    const coincideTexto = (p.nombre + " " + p.descripcion + " " + p.tipo).toLowerCase().includes(busqueda);
-    const coincideEstado = filtro === "todos" || p.estado === filtro;
-    return coincideTexto && coincideEstado;
-  });
-
-  if (!lista.length) {
-    contenedor.innerHTML = `<div class="empty" style="grid-column:1/-1">
-      <strong>No encontramos proyectos</strong>
-      Prueba otro término o crea un experimento nuevo.
-      <br><br><button class="btn btn-primary" onclick="iniciarNuevoProyecto()">Crear experimento</button>
-    </div>`;
-    return;
-  }
-
-  contenedor.innerHTML = lista.map(p => `
-    <article class="card">
-      <div class="card-top">
-        <div class="card-icon">${categorias[p.tipo].icono}</div>
-        ${estadoPill(p.estado)}
-      </div>
-      <h3>${escapeHTML(p.nombre)}</h3>
-      <p>${escapeHTML(p.descripcion)}</p>
-      <div class="card-meta">
-        <span class="pill gray">${escapeHTML(categorias[p.tipo].nombre)}</span>
-        <span class="pill gray">${fechaCorta(p.fechaCreacion)}</span>
-      </div>
-      <div class="progress-track"><div class="progress-fill" style="width:${porcentajeProyecto(p)}%"></div></div>
-      <p>${contarTareas(p)}/7 tareas completadas · ${p.resultado ? "Resultados registrados" : "Sin resultados"}</p>
-      ${p.resultado ? `<p><strong>Ingresos:</strong> ${dinero(p.resultado.ingresos)} · <strong>Ventas:</strong> ${numero(p.resultado.ventas)}</p>` : ""}
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="abrirProyecto('${p.id}')">${p.resultado ? "Ver análisis" : "Continuar"}</button>
-        <button class="btn btn-outline" onclick="duplicarProyecto('${p.id}')">Nueva prueba</button>
-      </div>
-      <div class="card-actions">
-        <button class="btn btn-danger btn-small" onclick="eliminarProyecto('${p.id}')">Eliminar</button>
-      </div>
-    </article>`).join("");
-}
-
-function mostrarBiblioteca() {
-  const busqueda = (document.getElementById("buscarIdea")?.value || "").toLowerCase().trim();
-  const filtro = document.getElementById("filtroCategoria")?.value || "todas";
-
-  const lista = ideas.filter(idea =>
-    (filtro === "todas" || idea.interes === filtro) &&
-    (idea.titulo + " " + idea.descripcion + " " + idea.primerPaso).toLowerCase().includes(busqueda)
-  );
-
-  document.getElementById("listaBiblioteca").innerHTML = lista.length
-    ? lista.map(idea => `
-      <article class="card">
-        <div class="card-top">
-          <div class="card-icon">${categorias[idea.interes].icono}</div>
-          <span class="pill gray">${escapeHTML(idea.dificultad)}</span>
-        </div>
-        <h3>${escapeHTML(idea.titulo)}</h3>
-        <p>${escapeHTML(idea.descripcion)}</p>
-        <div class="card-meta">
-          <span class="pill gray">${escapeHTML(categorias[idea.interes].nombre)}</span>
-          <span class="pill gray">Riesgo ${escapeHTML(idea.riesgo)}</span>
-        </div>
-        <p><strong>Inversión:</strong> ${escapeHTML(idea.inversion)}</p>
-        <p><strong>Primer paso:</strong> ${escapeHTML(idea.primerPaso)}</p>
-        <button class="btn btn-outline btn-full" onclick="usarIdeaBiblioteca('${idea.id}')">Explorar esta idea</button>
-      </article>`).join("")
-    : `<div class="empty" style="grid-column:1/-1"><strong>No hay coincidencias</strong>Prueba con otro término o categoría.</div>`;
-}
-
-function usarIdeaBiblioteca(id) {
-  const idea = ideas.find(i => i.id === id);
-  if (!idea) return;
-
-  if (!perfilActual) {
-    iniciarNuevoProyecto();
-    document.getElementById("interes").value = idea.interes;
-    notificar("Completa tu perfil para personalizar esta idea.");
-    return;
-  }
-
-  const resultado = calcularCompatibilidad(idea, perfilActual);
-  ideaSeleccionada = { idea, ...resultado };
-  document.getElementById("proyectoForm").reset();
-  document.getElementById("nombreProyecto").value = idea.titulo;
-  document.getElementById("ideaElegida").innerHTML =
-    `<strong>${escapeHTML(idea.titulo)}</strong><p>${escapeHTML(idea.descripcion)}</p>`;
-  irA("crearProyecto");
-}
-
-/* =========================================================
-   10. ELIMINAR, EXPORTAR E IMPORTAR
-========================================================= */
-
-function eliminarProyecto(id) {
-  const p = obtenerProyecto(id);
-  if (!p) return;
-
-  if (!confirm(`¿Seguro que quieres eliminar "${p.nombre}"? Esta acción no se puede deshacer. Exporta un respaldo si deseas conservarlo.`)) return;
-
-  proyectos = proyectos.filter(x => x.id !== id);
-  guardarTodo();
-  actualizarDashboard();
-  mostrarMisProyectos();
-  mostrarHistorialAprendizajes();
-  irA("misProyectos");
-  notificar("Proyecto eliminado.");
-}
-
-function exportarDatos() {
-  const paquete = {
-    app: "PROYECTO 0 → 1",
-    version: 5,
-    exportado: fechaISO(),
-    proyectos
-  };
-
-  const blob = new Blob([JSON.stringify(paquete, null, 2)], {
-    type: "application/json"
-  });
-  const url = URL.createObjectURL(blob);
-  const enlace = document.createElement("a");
-  enlace.href = url;
-  enlace.download = `proyecto-0-a-1-respaldo-${new Date().toISOString().slice(0,10)}.json`;
-  document.body.appendChild(enlace);
-  enlace.click();
-  enlace.remove();
-  URL.revokeObjectURL(url);
-  notificar("Respaldo preparado.");
-}
-
-async function importarDatos(event) {
-  const archivo = event.target.files?.[0];
-  event.target.value = "";
-  if (!archivo) return;
-
-  if (archivo.size > 10 * 1024 * 1024) {
-    notificar("El archivo supera 10 MB. No se importó.");
-    return;
-  }
-
-  try {
-    const texto = await archivo.text();
-    const paquete = leerJSONSeguro(texto);
-    const lista = Array.isArray(paquete) ? paquete : paquete?.proyectos;
-
-    if (!Array.isArray(lista)) {
-      notificar("El archivo no tiene un formato de respaldo reconocido.");
-      return;
-    }
-    if (lista.length > 10000) {
-      notificar("El respaldo contiene demasiados proyectos.");
-      return;
+    ];
+
+    function scoreIdea(idea, budget, skill, hours, mode) {
+      let score = 50;
+      if (idea.cost <= budget) score += 15;
+      if (idea.skills.includes(skill)) score += 20;
+      if (hours >= idea.hours) score += 10;
+      if (mode === "either" || mode === idea.mode) score += 5;
+      return Math.min(score, 100);
     }
 
-    const normalizados = lista.map(normalizarProyecto).filter(Boolean);
-    if (normalizados.length !== lista.length) {
-      notificar("Algunos registros no eran válidos. No se importó el archivo.");
-      return;
-    }
+    const generateButton = document.getElementById("generate");
 
-    const ids = normalizados.map(p => p.id);
-    if (new Set(ids).size !== ids.length) {
-      notificar("El respaldo contiene identificadores duplicados.");
-      return;
-    }
+    generateButton.addEventListener("click", () => {
+      const budget = Number(document.getElementById("budget").value);
+      const skill = document.getElementById("skill").value;
+      const hours = Number(document.getElementById("time").value);
+      const mode = document.getElementById("mode").value;
 
-    if (!confirm(`Se importarán ${normalizados.length} proyectos y se reemplazarán los datos actuales. ¿Continuar? Exporta antes un respaldo si quieres conservar el estado actual.`)) {
-      return;
-    }
+      const ranked = ideas
+        .filter(idea => idea.cost <= budget)
+        .map(idea => ({
+          ...idea,
+          score: scoreIdea(idea, budget, skill, hours, mode)
+        }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 3);
 
-    const anteriores = proyectos;
-    proyectos = normalizados;
-    if (!guardarTodo()) {
-      proyectos = anteriores;
-      notificar("No se pudo guardar el respaldo importado.");
-      return;
-    }
+      const results = document.getElementById("results");
+      results.replaceChildren();
 
-    actualizarDashboard();
-    mostrarMisProyectos();
-    mostrarHistorialAprendizajes();
-    irA("misProyectos");
-    notificar(`Importación completada: ${proyectos.length} proyectos.`);
-  } catch (error) {
-    console.error(error);
-    notificar("No fue posible leer el archivo.");
-  }
-}
+      ranked.forEach((idea, index) => {
+        const card = document.createElement("article");
+        card.className = "idea";
 
-function reiniciarDatos() {
-  const confirmar = confirm(
-    "¿Quieres borrar TODOS los proyectos y resultados guardados en este navegador? Esta acción no se puede deshacer. Exporta un respaldo primero si lo necesitas."
-  );
-  if (!confirmar) return;
+        const title = document.createElement("h3");
+        title.textContent = `${index + 1}. ${idea.name}`;
 
-  proyectos = [];
-  try {
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(OLD_STORAGE_KEY);
-  } catch (error) {
-    console.error(error);
-  }
+        const score = document.createElement("p");
+        score.className = "score";
+        score.textContent = `Compatibilidad aproximada: ${idea.score}/100`;
 
-  guardarTodo();
-  actualizarDashboard();
-  mostrarMisProyectos();
-  mostrarHistorialAprendizajes();
-  irA("inicio");
-  notificar("Datos locales borrados.");
-}
+        const type = document.createElement("span");
+        type.className = "pill";
+        type.textContent = idea.type;
 
-/* =========================================================
-   11. FORMULARIOS Y ARRANQUE
-========================================================= */
+        const cost = document.createElement("span");
+        cost.className = "pill";
+        cost.textContent = "Diseñada para empezar con recursos mínimos";
 
-document.getElementById("perfilForm").addEventListener("submit", event => {
-  event.preventDefault();
-  perfilActual = leerPerfil();
-  generarRecomendaciones();
-});
+        const description = document.createElement("p");
+        description.textContent = idea.desc;
 
-document.getElementById("proyectoForm").addEventListener("submit", event => {
-  event.preventDefault();
-  crearProyectoDesdeIdea();
-});
+        const heading = document.createElement("strong");
+        heading.textContent = "Plan de acción:";
 
-document.getElementById("resultadoForm").addEventListener("submit", event => {
-  event.preventDefault();
-  guardarResultadoDesdeFormulario();
-});
+        const list = document.createElement("ul");
+        idea.steps.forEach(step => {
+          const li = document.createElement("li");
+          li.textContent = step;
+          list.appendChild(li);
+        });
 
-function iniciarAplicacion() {
-  actualizarDashboard();
-  mostrarMisProyectos();
-  mostrarHistorialAprendizajes();
-  mostrarBiblioteca();
-}
+        const test = document.createElement("p");
+        test.className = "test";
+        const testLabel = document.createElement("strong");
+        testLabel.textContent = "Tu experimento: ";
+        test.append(testLabel, document.createTextNode(idea.test));
 
-iniciarAplicacion();
-</script>
+        card.append(title, score, type, cost, description, heading, list, test);
+        results.appendChild(card);
+      });
+
+      document.getElementById("resultsSection").hidden = false;
+      document.getElementById("resultsSection").scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("restart").addEventListener("click", () => {
+      document.getElementById("resultsSection").hidden = true;
+      document.getElementById("radar").scrollIntoView({ behavior: "smooth" });
+    });
+  </script>
 </body>
 </html>
