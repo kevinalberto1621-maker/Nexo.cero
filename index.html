@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,41 +8,32 @@
   <title>NEXO CERO | De una idea a algo real</title>
   <style>
     :root {
-      --bg: #0b1020;
-      --panel: #141c30;
-      --line: #293650;
+      --bg: #090e1b;
+      --panel: #111a2d;
+      --line: #283751;
       --text: #f4f7ff;
-      --muted: #a8b4ca;
+      --muted: #aab6cb;
       --accent: #b8f36b;
+      --accent-soft: rgba(184, 243, 107, .09);
     }
-
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-
     body {
       margin: 0;
-      background: var(--bg);
+      background: radial-gradient(ellipse at 50% -15%, #1b2943 0%, var(--bg) 58%);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.6;
     }
-
     .wrap { width: min(940px, 92%); margin: auto; }
-
     header {
-      padding: 22px 0;
-      border-bottom: 1px solid var(--line);
+      padding: 17px 0;
+      border-bottom: 1px solid rgba(80, 101, 137, .25);
+      background: rgba(9, 14, 27, .55);
     }
-
-    .brand {
-      font-weight: 900;
-      letter-spacing: 2px;
-      font-size: 20px;
-    }
-
+    .brand { font-weight: 850; letter-spacing: 1.7px; font-size: 13px; color: #cbd5e7; }
     .brand span { color: var(--accent); }
-    .hero { padding: 62px 0 32px; }
-
+    .hero { padding: 68px 0 38px; }
     .tag {
       color: var(--accent);
       text-transform: uppercase;
@@ -51,58 +41,51 @@
       font-weight: 800;
       letter-spacing: 2px;
     }
-
     h1 {
       font-size: clamp(36px, 7vw, 64px);
       line-height: 1.06;
       letter-spacing: -2px;
       margin: 15px 0;
     }
-
     h2 { font-size: 24px; line-height: 1.25; }
     h3 { line-height: 1.3; }
     p { color: var(--muted); }
     .hero p { font-size: 18px; max-width: 650px; }
     .accent { color: var(--accent); }
-
     .panel {
-      background: var(--panel);
+      background: linear-gradient(145deg, rgba(20, 30, 51, .97), rgba(14, 22, 39, .98));
       border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 26px;
+      border-radius: 20px;
+      padding: 28px;
       margin: 24px 0;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, .16);
     }
-
+    #radar { border-color: #354765; }
+    #radar h2 { margin-top: 8px; font-size: 28px; }
     .fields {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 20px;
     }
-
-    label {
-      display: block;
-      font-weight: 650;
-      margin-bottom: 8px;
-    }
-
+    label { display: block; font-weight: 650; margin-bottom: 8px; }
     select {
       width: 100%;
       padding: 14px;
-      border-radius: 10px;
-      background: #0b1020;
+      border-radius: 12px;
+      background: #0b1222;
       color: var(--text);
-      border: 1px solid #40506d;
+      border: 1px solid #3a4a67;
+      transition: border-color .18s ease, background .18s ease;
       font-size: 15px;
     }
-
     select:focus, button:focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 3px;
     }
-
+    select:hover { border-color: #687b9b; }
     button {
       border: 0;
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 15px 20px;
       background: var(--accent);
       color: #14200b;
@@ -110,26 +93,19 @@
       font-weight: 800;
       cursor: pointer;
     }
-
     button:hover { filter: brightness(1.06); }
-
-    .main-button {
-      width: 100%;
-      margin-top: 24px;
-    }
-
+    button:disabled { opacity: .6; cursor: wait; }
+    .main-button { width: 100%; margin-top: 24px; box-shadow: 0 8px 24px rgba(184, 243, 107, .12); }
     .results { display: grid; gap: 18px; }
-
     .idea {
-      background: var(--panel);
+      background: linear-gradient(145deg, #141e33, #101829);
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 24px;
     }
-
+    .idea:first-child { border-color: rgba(184, 243, 107, .45); }
     .idea h3 { margin: 7px 0; font-size: 22px; }
     .score { color: var(--accent); font-weight: 800; }
-
     .pill {
       display: inline-block;
       border: 1px solid #40506d;
@@ -139,40 +115,29 @@
       font-size: 12px;
       margin: 4px 4px 4px 0;
     }
-
     .idea ul { padding-left: 22px; }
     .idea li { margin: 8px 0; }
-
     .test {
-      padding: 13px;
+      padding: 14px;
       border-left: 3px solid var(--accent);
-      background: #0e1628;
+      background: var(--accent-soft);
       border-radius: 0 8px 8px 0;
     }
-
     .test strong { color: var(--text); }
     .section-intro { margin-top: -8px; }
-
     .how-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
     }
-
     .how-card {
       border: 1px solid var(--line);
+      background: rgba(9, 14, 27, .28);
       border-radius: 14px;
-      padding: 16px;
+      padding: 17px;
     }
-
-    .number {
-      color: var(--accent);
-      font-weight: 900;
-      font-size: 23px;
-    }
-
+    .number { color: var(--accent); font-weight: 900; font-size: 23px; }
     .notice { font-size: 13px; }
-
     footer {
       padding: 30px 0 42px;
       color: var(--muted);
@@ -181,51 +146,22 @@
       margin-top: 40px;
     }
 
-    .week-plan {
-      margin-top: 18px;
-      padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-    }
-
-    .week-plan h4 {
-      margin: 0 0 8px;
-      color: var(--accent);
-    }
-
+    .week-plan { margin-top: 18px; padding: 17px; border: 1px solid var(--line); background: rgba(8, 13, 25, .35); border-radius: 14px; }
+    .week-plan h4 { margin: 0 0 8px; color: var(--accent); }
     .week-plan ol { padding-left: 22px; }
-
-    .message-box {
-      margin-top: 14px;
-      padding: 14px;
-      background: #0b1020;
-      border: 1px solid #40506d;
-      border-radius: 10px;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      color: var(--text);
-    }
-
-    .copy-button {
-      margin-top: 10px;
-      padding: 10px 14px;
-      background: transparent;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-    }
-
+    .message-box { margin-top: 14px; padding: 14px; background: #0b1020; border: 1px solid #40506d; border-radius: 10px; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--text); }
+    .copy-button { margin-top: 10px; padding: 10px 14px; background: transparent; border: 1px solid var(--accent); color: var(--accent); }
     .small-note { font-size: 13px; }
     [hidden] { display: none !important; }
-
     @media (max-width: 620px) {
       .fields, .how-grid { grid-template-columns: 1fr; }
       .panel { padding: 19px; }
-      .hero { padding-top: 42px; }
+      .hero { padding-top: 48px; }
+      .idea { padding: 19px; }
       h1 { letter-spacing: -1px; }
     }
   </style>
 </head>
-
 <body>
   <header>
     <div class="wrap brand">NEXO<span>.</span>CERO</div>
@@ -236,7 +172,7 @@
       <div class="tag">Tu punto de partida</div>
       <h1>Empieza con lo que tienes.<br><span class="accent">Construye algo real.</span></h1>
       <p>Descubre ideas de negocio que se ajustan a tu dinero, tus habilidades y tu tiempo. Después, prueba si existe interés antes de arriesgar tus ahorros.</p>
-      <a href="#radar" style="display:inline-block;margin-top:12px;color:#b8f36b;font-weight:800;">Encuentra tu primera idea ↓</a>
+      <a href="#radar" style="display:inline-block;margin-top:12px;color:#b8f36b;font-weight:800;text-decoration:none;border-bottom:1px solid rgba(184,243,107,.45);padding-bottom:3px;">Encuentra tu primera idea ↓</a>
     </section>
 
     <section class="panel" id="radar">
@@ -254,7 +190,6 @@
             <option value="3000">$3,000 MXN</option>
           </select>
         </div>
-
         <div>
           <label for="skill">¿Qué se te da mejor?</label>
           <select id="skill">
@@ -265,7 +200,6 @@
             <option value="learn">Estoy dispuesto a aprender</option>
           </select>
         </div>
-
         <div>
           <label for="time">¿Cuánto tiempo tienes por semana?</label>
           <select id="time">
@@ -274,7 +208,6 @@
             <option value="10">8 horas o más</option>
           </select>
         </div>
-
         <div>
           <label for="mode">¿Cómo prefieres trabajar?</label>
           <select id="mode">
@@ -284,7 +217,6 @@
           </select>
         </div>
       </div>
-
       <button class="main-button" id="generate" type="button">Encontrar mis ideas →</button>
       <p class="notice">No necesitas registrarte. Tus respuestas se procesan en esta página y no se envían a un servidor.</p>
     </section>
@@ -293,9 +225,7 @@
       <div class="tag">Tu siguiente paso</div>
       <h2>Tus oportunidades iniciales</h2>
       <p class="section-intro">Empieza por la opción que puedas probar más fácilmente. Las puntuaciones miden compatibilidad aproximada, no garantizan ventas.</p>
-
       <div id="results" class="results"></div>
-
       <div class="panel">
         <h2>La regla de NEXO CERO</h2>
         <p>Antes de gastar, busca evidencia. Habla con posibles clientes, entiende el problema y comprueba si alguien realmente quiere pagar por resolverlo.</p>
@@ -306,20 +236,17 @@
     <section class="panel">
       <div class="tag">Nuestro método</div>
       <h2>De la idea a la evidencia</h2>
-
       <div class="how-grid">
         <div class="how-card">
           <div class="number">01</div>
           <h3>Encuentra</h3>
           <p>Elige un problema que puedas ayudar a resolver.</p>
         </div>
-
         <div class="how-card">
           <div class="number">02</div>
           <h3>Experimenta</h3>
           <p>Prueba el interés con acciones pequeñas y económicas.</p>
         </div>
-
         <div class="how-card">
           <div class="number">03</div>
           <h3>Aprende</h3>
@@ -486,7 +413,6 @@
         heading.textContent = "Plan de acción:";
 
         const list = document.createElement("ul");
-
         idea.steps.forEach(step => {
           const li = document.createElement("li");
           li.textContent = step;
@@ -495,20 +421,15 @@
 
         const test = document.createElement("p");
         test.className = "test";
-
         const testLabel = document.createElement("strong");
         testLabel.textContent = "Tu experimento: ";
-
         test.append(testLabel, document.createTextNode(idea.test));
 
         const week = document.createElement("div");
         week.className = "week-plan";
-
         const weekTitle = document.createElement("h4");
         weekTitle.textContent = "Tu plan de 7 días";
-
         const weekList = document.createElement("ol");
-
         const weekTasks = [
           "Día 1: define exactamente a quién ayudarás y qué problema resolverás.",
           "Día 2: observa cinco posibles clientes y anota qué necesitan.",
@@ -518,29 +439,22 @@
           "Día 6: contacta a cinco posibles clientes con un mensaje respetuoso.",
           "Día 7: revisa respuestas, preguntas y señales de interés; decide qué mejorar."
         ];
-
         weekTasks.forEach(task => {
           const li = document.createElement("li");
           li.textContent = task;
           weekList.appendChild(li);
         });
-
         week.append(weekTitle, weekList);
 
         const messageTitle = document.createElement("strong");
         messageTitle.textContent = "Mensaje que puedes adaptar";
-
         const message = document.createElement("div");
         message.className = "message-box";
-
-        message.textContent =
-          `Hola, estoy preparando un servicio de ${idea.name.toLowerCase()}. Estoy hablando con personas para entender qué necesitan antes de ofrecerlo. ¿Te puedo hacer dos preguntas rápidas sobre cómo resuelves esto actualmente? No hay compromiso.`;
-
+        message.textContent = `Hola, estoy preparando un servicio de ${idea.name.toLowerCase()}. Estoy hablando con personas para entender qué necesitan antes de ofrecerlo. ¿Te puedo hacer dos preguntas rápidas sobre cómo resuelves esto actualmente? No hay compromiso.`;
         const copyButton = document.createElement("button");
         copyButton.type = "button";
         copyButton.className = "copy-button";
         copyButton.textContent = "Copiar mensaje";
-
         copyButton.addEventListener("click", async () => {
           try {
             await navigator.clipboard.writeText(message.textContent);
@@ -554,36 +468,17 @@
         caution.className = "small-note";
         caution.textContent = "Importante: este plan no garantiza ventas. No gastes dinero ni prometas resultados antes de comprobar que existe interés real.";
 
-        card.append(
-          title,
-          score,
-          type,
-          cost,
-          description,
-          heading,
-          list,
-          test,
-          week,
-          messageTitle,
-          message,
-          copyButton,
-          caution
-        );
-
+        card.append(title, score, type, cost, description, heading, list, test, week, messageTitle, message, copyButton, caution);
         results.appendChild(card);
       });
 
       document.getElementById("resultsSection").hidden = false;
-      document.getElementById("resultsSection").scrollIntoView({
-        behavior: "smooth"
-      });
+      document.getElementById("resultsSection").scrollIntoView({ behavior: "smooth" });
     });
 
     document.getElementById("restart").addEventListener("click", () => {
       document.getElementById("resultsSection").hidden = true;
-      document.getElementById("radar").scrollIntoView({
-        behavior: "smooth"
-      });
+      document.getElementById("radar").scrollIntoView({ behavior: "smooth" });
     });
   </script>
 </body>
